@@ -1,0 +1,6 @@
+dotnet ef migrations add InitialCreate --project Ohara.Database --startup-project Ohara.Api.Internal
+
+dotnet ef database update --project Ohara.Database --startup-project Ohara.Api.Internal
+
+dotnet ef migrations remove --project Ohara.Database --startup-project Ohara.Api.Internal
+

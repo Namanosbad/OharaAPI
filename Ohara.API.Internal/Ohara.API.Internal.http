@@ -1,0 +1,6 @@
+@Ohara.API.Internal_HostAddress = http://localhost:5064
+
+GET {{Ohara.API.Internal_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

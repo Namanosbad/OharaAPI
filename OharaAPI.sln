@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{886E1927-4542-4030-AAB0-5584EEE27B0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D3DB7A6C-F00E-415F-B1BC-73F5EEA41411}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{07609E62-F670-4A32-A280-22C631687469}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ioc", "Ioc", "{2A33082A-947C-4B47-AC1D-97C57DCD25CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{1D7AAC32-1EF5-4957-83C7-62F10268A7D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{6AA4BC86-6EA9-4193-80C3-E8980686E217}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CE5B270F-2D0C-479F-9BC6-3DE591223FE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ohara.API.Internal", "Ohara.API.Internal\Ohara.API.Internal.csproj", "{7BB4C49F-C6E2-4E67-9EA0-3F967311314B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ohara.API.Domain", "Ohara.API.Domain\Ohara.API.Domain.csproj", "{915E4F40-B7CE-406D-8C5F-84B333B040FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionsItems", "SolutionsItems", "{8AD6C71A-4476-496C-9858-DF297D0A6F64}"
+	ProjectSection(SolutionItems) = preProject
+		Migrations.txt = Migrations.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ohara.API.Database", "Ohara.API.Database\Ohara.API.Database.csproj", "{D4D98C92-9471-4E9F-8D1B-6634FD7B6A43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BB4C49F-C6E2-4E67-9EA0-3F967311314B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB4C49F-C6E2-4E67-9EA0-3F967311314B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB4C49F-C6E2-4E67-9EA0-3F967311314B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB4C49F-C6E2-4E67-9EA0-3F967311314B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{915E4F40-B7CE-406D-8C5F-84B333B040FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{915E4F40-B7CE-406D-8C5F-84B333B040FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{915E4F40-B7CE-406D-8C5F-84B333B040FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{915E4F40-B7CE-406D-8C5F-84B333B040FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D98C92-9471-4E9F-8D1B-6634FD7B6A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D98C92-9471-4E9F-8D1B-6634FD7B6A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D98C92-9471-4E9F-8D1B-6634FD7B6A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D98C92-9471-4E9F-8D1B-6634FD7B6A43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1D7AAC32-1EF5-4957-83C7-62F10268A7D0} = {CE5B270F-2D0C-479F-9BC6-3DE591223FE4}
+		{6AA4BC86-6EA9-4193-80C3-E8980686E217} = {CE5B270F-2D0C-479F-9BC6-3DE591223FE4}
+		{7BB4C49F-C6E2-4E67-9EA0-3F967311314B} = {886E1927-4542-4030-AAB0-5584EEE27B0A}
+		{915E4F40-B7CE-406D-8C5F-84B333B040FA} = {1D7AAC32-1EF5-4957-83C7-62F10268A7D0}
+		{D4D98C92-9471-4E9F-8D1B-6634FD7B6A43} = {07609E62-F670-4A32-A280-22C631687469}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEC5A0FD-B2C2-4264-84C5-C668FC05B774}
+	EndGlobalSection
+EndGlobal
