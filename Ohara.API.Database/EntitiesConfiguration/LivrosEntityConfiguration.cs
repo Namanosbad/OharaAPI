@@ -24,6 +24,8 @@ namespace Ohara.API.Database.EntitiesConfiguration
                         .HasMaxLength(100);
                         
             builder.Property(x => x.Genero)
+                        //Já converter em string no banco.
+                        .HasConversion<string>()
                         .IsRequired();
 
             builder.Property(x => x.Descricao)
