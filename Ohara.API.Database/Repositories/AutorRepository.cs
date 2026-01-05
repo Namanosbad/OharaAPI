@@ -1,4 +1,5 @@
-﻿using Ohara.API.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Interfaces;
 
 namespace Ohara.API.Database.Repositories
@@ -11,11 +12,11 @@ namespace Ohara.API.Database.Repositories
              _dbContext = oharaDbContext;
         }
 
-        public async Task<Autor> CadastrarAutor(Autor autor)
+        public async Task<Autor> LivroPorAutorAsync(Guid autorId)
         {
-            await _dbContext.AddAsync(autor);
-            await _dbContext.SaveChangesAsync();
-            return autor;
+            return await _dbContext.Autor
+                .Include(a => a.Livros)
+                .FirstOrDefaultAsync(a => a.Id == autorId);
         }
     }
 }

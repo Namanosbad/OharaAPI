@@ -14,6 +14,13 @@ namespace Ohara.API.Database.Repositories
             _DbSet = oharaDbContext.Set<T>();
         }
 
+        public async Task<T> AddAsync(T entity)
+        {
+            _DbSet.Add(entity);
+            await _oharaDbContext.SaveChangesAsync();
+            return entity;
+        }
+
         public async Task DeleteAsync(Guid id)
         {
             var entity = await _DbSet.FindAsync(id);
