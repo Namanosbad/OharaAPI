@@ -10,14 +10,14 @@ namespace Ohara.API.Ioc
 
     public static class ServiceCollectionExtensions
     {
-        private static IServiceCollection AddServices (this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddServices (this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext(configuration);
             return services;
         }
 
         // Método de extensão para IServiceCollection, permite configurar o DbContext de forma organizada
-        private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             // Configura a classe DbConfig usando a seção correspondente no appsettings.json
             services.Configure<DbConfig>(config => configuration.GetRequiredSection(nameof(DbConfig)));

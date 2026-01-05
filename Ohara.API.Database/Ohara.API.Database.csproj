@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Ohara.API.Domain\Ohara.API.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
