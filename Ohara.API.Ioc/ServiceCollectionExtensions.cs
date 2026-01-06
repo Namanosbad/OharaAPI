@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Ohara.API.Database;
+using Ohara.API.Database.Repositories;
+using Ohara.API.Domain.Interfaces;
 using Ohara.API.Shared.Configuration;
 
 namespace Ohara.API.Ioc
@@ -13,6 +15,7 @@ namespace Ohara.API.Ioc
         public static IServiceCollection AddServices (this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext(configuration);
+            services.AddApplicationServices(configuration);
             return services;
         }
 
@@ -40,7 +43,13 @@ namespace Ohara.API.Ioc
             return services;
         }
 
-
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<IAutorRepository, AutorRepository>();
+            services.AddTransient<ILivroRepository, LivroRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            return services;
+        }
 
     }
 }
