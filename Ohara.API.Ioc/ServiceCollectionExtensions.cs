@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Ohara.API.Application.Interfaces;
+using Ohara.API.Application.Services;
 using Ohara.API.Database;
 using Ohara.API.Database.Repositories;
 using Ohara.API.Domain.Interfaces;
@@ -48,6 +50,7 @@ namespace Ohara.API.Ioc
             services.AddTransient<IAutorRepository, AutorRepository>();
             services.AddTransient<ILivroRepository, LivroRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            services.AddTransient<IAutorService, AutorService>();
             return services;
         }
 

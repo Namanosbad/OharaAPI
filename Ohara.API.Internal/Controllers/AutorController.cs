@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Ohara.API.Application.Interfaces;
+
+namespace Ohara.API.Internal.Controllers
+{
+    [ApiController]
+    [Route("api/v/[controller]")]
+    //controlador herda de Controller
+    [Produces("application/json")]
+    public class AutorController : Controller
+    {
+        private readonly IAutorService _autorService;
+
+        public AutorController(IAutorService autorService)
+        {
+            _autorService = autorService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Livros(Guid id)
+        {
+            var autor = await _autorService.LivroPorAutorAsync(id);
+            return Ok(autor);
+        }
+    }
+}
