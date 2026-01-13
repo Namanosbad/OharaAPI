@@ -19,4 +19,5 @@ public class Livro : IEntity
 
     public Guid AutorId { get; set; }
     public Autor Autor {  get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.Now;
 }

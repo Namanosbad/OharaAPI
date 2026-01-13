@@ -25,7 +25,7 @@ namespace Ohara.API.Ioc
         public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             // Configura a classe DbConfig usando a seção correspondente no appsettings.json
-            services.Configure<DbConfig>(config => configuration.GetRequiredSection(nameof(DbConfig)));
+            services.Configure<DbConfig>(config => configuration.GetRequiredSection(nameof(DbConfig)).Bind(config));
 
             // Adiciona o DbContext ETrocasDbContext ao container de DI
             // O serviço vai usar uma factory que recebe serviceProvider e options do EF
