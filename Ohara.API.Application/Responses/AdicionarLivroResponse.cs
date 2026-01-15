@@ -16,7 +16,7 @@ namespace Ohara.API.Application.Responses
         public DateTime DataPublicacao { get; set; }
         public string? ISBN { get; set; }
         public bool Disponivel { get; set; }
-        public Autor Autor { get; set; }
+        public string NomeAutor { get; set; }
         public Guid AutorId { get; set; }
         public DateTime DataCadastro { get; set; } = DateTime.Now;
     }

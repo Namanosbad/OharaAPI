@@ -47,10 +47,11 @@ namespace Ohara.API.Ioc
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<IAutorRepository, AutorRepository>();
-            services.AddTransient<ILivroRepository, LivroRepository>();
+            services.AddScoped<IAutorRepository, AutorRepository>();
+            services.AddScoped<ILivroRepository, LivroRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
-            services.AddTransient<IAutorService, AutorService>();
+            services.AddScoped<ILivroService, LivroService>();
+            services.AddScoped<IAutorService, AutorService>();
             return services;
         }
 

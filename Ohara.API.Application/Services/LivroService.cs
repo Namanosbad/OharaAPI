@@ -9,12 +9,12 @@ namespace Ohara.API.Application.Services
 {
     public class LivroService : ILivroService
     {
-        private readonly ILivroRepository _livroRepository;
-        private readonly IAutorRepository _autorRepository;
-        public LivroService(ILivroRepository livroRepository, IAutorRepository autorRepository)
+        private readonly IRepository<Livro> _livroRepo;
+        private readonly IRepository<Autor> _autorRepo;
+        public LivroService(IRepository<Livro> livroRepository, IRepository<Autor> autorRepository)
         {
-            _livroRepository = livroRepository;
-            _autorRepository = autorRepository;
+            _livroRepo = livroRepository;
+            _autorRepo = autorRepository;
         }
 
         public async Task<AdicionarLivroResponse> AdicionarLivroAsync(AdicionarLivroRequest adicionarLivroRequest)
@@ -24,6 +24,8 @@ namespace Ohara.API.Application.Services
                 Id = Guid.NewGuid(),
                 Nome = adicionarLivroRequest.NomeAutor
             };
+
+            autor = await _autorRepo.AddAsync(autor);
 
             // Aqui eu crio o Livro (objeto de entrada)
             var livro = new Livro
@@ -42,9 +44,10 @@ namespace Ohara.API.Application.Services
                 Autor = autor,
                 AutorId = autor.Id
             };
+            await _livroRepo.AddAsync(livro);
 
             // O que retorna para o usuário
-            return await Task.FromResult(new AdicionarLivroResponse
+            return new AdicionarLivroResponse
             {
                 Id = livro.Id,
                 Titulo = livro.Titulo,
@@ -57,11 +60,10 @@ namespace Ohara.API.Application.Services
                 DataPublicacao = livro.DataPublicacao,
                 ISBN = livro.ISBN,
                 Disponivel = livro.Disponivel,
-                Autor = livro.Autor,
-                AutorId = livro.AutorId,
+                NomeAutor = autor.Nome,
+                AutorId = autor.Id,
                 DataCadastro = livro.DataCadastro
-            });
-
+            };
         }
 
         public Task<Livro> AtualizarLivroAsync()
