@@ -19,14 +19,20 @@ namespace Ohara.API.Application.Services
 
         public async Task<AdicionarLivroResponse> AdicionarLivroAsync(AdicionarLivroRequest adicionarLivroRequest)
         {
-            var autor = new Autor
+            var autores = await _autorRepo.FindAsync(a => a.Nome == adicionarLivroRequest.NomeAutor);
+
+            var autor = autores.FirstOrDefault();
+
+            if (autor == null)
             {
-                Id = Guid.NewGuid(),
-                Nome = adicionarLivroRequest.NomeAutor
-            };
+                autor = new Autor
+                {
+                    Id = Guid.NewGuid(),
+                    Nome = adicionarLivroRequest.NomeAutor
+                };
 
-            autor = await _autorRepo.AddAsync(autor);
-
+                autor = await _autorRepo.AddAsync(autor);
+            }
             // Aqui eu crio o Livro (objeto de entrada)
             var livro = new Livro
             {
