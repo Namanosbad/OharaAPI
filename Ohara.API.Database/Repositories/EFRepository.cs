@@ -21,22 +21,17 @@ namespace Ohara.API.Database.Repositories
             return entity;
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            var entity = await _DbSet.FindAsync(id);
-            if (entity is null)
-                return;
-
-            _DbSet.Remove(entity);
-            await _oharaDbContext.SaveChangesAsync();
-        }
-
         public async Task<bool> ExistAsync(Guid id)
         {
             var entity = await _DbSet.FindAsync(id);
             if (entity is null) 
                 return false;
             else return true;
+        }
+
+        public Task<List<T>> FindAsync(Func<T, bool> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -54,6 +49,16 @@ namespace Ohara.API.Database.Repositories
             _DbSet.Update(Tentity);
             await _oharaDbContext.SaveChangesAsync();
             return Tentity;       
+        }
+
+        public async Task<T> DeleteAsync(Guid id)
+        {
+            var entity = await _DbSet.FindAsync(id);
+            if (entity is null)
+
+            _DbSet.Remove(entity);
+            await _oharaDbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

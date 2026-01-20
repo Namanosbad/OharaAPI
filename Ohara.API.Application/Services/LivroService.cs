@@ -57,7 +57,7 @@ namespace Ohara.API.Application.Services
                 ExemplarNumero = livro.ExemplarNumero,
                 ValorPago = livro.ValorPago,
                 Idioma = livro.Idioma,
-                DataPublicacao = livro.DataPublicacao,
+                DataPublicacao = livro.DataPublicacao, 
                 ISBN = livro.ISBN,
                 Disponivel = livro.Disponivel,
                 NomeAutor = autor.Nome,
@@ -66,34 +66,39 @@ namespace Ohara.API.Application.Services
             };
         }
 
-        public Task<Livro> AtualizarLivroAsync()
+        public Task<Livro> AtualizarLivroAsync(Livro livro)
         {
-            throw new NotImplementedException();
+            var atualizarLivro = _livroRepo.UpdateAsync(livro);
+            return atualizarLivro;
         }
 
-        public Task<Livro> BuscalLivroAsync(Guid id)
+        public async Task<Livro> BuscarLivroAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var idLivro = await _livroRepo.GetByIdAsync(id);
+            return idLivro;
         }
 
-        public Task<List<Livro>> BuscarPorTituloAsync(string titulo)
+        public async Task<List<Livro>> BuscarPorTituloAsync(string titulo)
         {
-            throw new NotImplementedException();
+            titulo = titulo.Trim();
+            return await _livroRepo.FindAsync(i => i.Titulo.Contains(titulo));
         }
 
-        public Task<Livro> BuscarTodosLivrosAsync()
+        public Task<IEnumerable<Livro>> BuscarTodosLivrosAsync()
         {
-            throw new NotImplementedException();
+           var busca = _livroRepo.GetAllAsync();
+            return busca;
         }
 
-        public Task<Livro> DeletarLivroAsync(Guid id)
+        public async Task<Livro> DeletarLivroAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var deletarLivro = await _livroRepo.DeleteAsync(id);
+            return deletarLivro;
         }
 
-        public Task<List<Livro>> LivroPorGenero(EGenero genero)
+        public async Task<List<Livro>> LivroPorGenero(EGenero genero)
         {
-            throw new NotImplementedException();
+            return await _livroRepo.FindAsync(l => l.Genero == genero);
         }
     }
 }

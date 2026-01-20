@@ -8,12 +8,11 @@ namespace Ohara.API.Application.Interfaces
     public interface ILivroService
     {
         Task<AdicionarLivroResponse> AdicionarLivroAsync(AdicionarLivroRequest adicionarLivroRequest);
-        Task<Livro> BuscalLivroAsync(Guid id);
-        Task<Livro> BuscarTodosLivrosAsync();
-        Task<Livro> AtualizarLivroAsync();
+        Task<Livro> BuscarLivroAsync(Guid id);
+        Task<IEnumerable<Livro>> BuscarTodosLivrosAsync();
+        Task<Livro> AtualizarLivroAsync(Livro livro);
         Task<Livro> DeletarLivroAsync(Guid id);
         Task<List<Livro>> BuscarPorTituloAsync(string titulo);
-        Task<List<Livro>> LivroPorGenero(EGenero genero);
-        
+        Task<List<Livro>> LivroPorGenero(EGenero genero);  
     }
 }

@@ -7,6 +7,7 @@
         Task<T> GetByIdAsync(Guid id);
         Task<T> UpdateAsync(T Tentity);
         Task<bool> ExistAsync(Guid id);
-        Task DeleteAsync(Guid id);
+        Task<T> DeleteAsync(Guid id);
+        Task<List<T>> FindAsync(Func<T, bool> predicate);
     }
 }
