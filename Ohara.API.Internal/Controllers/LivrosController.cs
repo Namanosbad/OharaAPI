@@ -17,7 +17,7 @@ namespace Ohara.API.Internal.Controllers
             _livroService = livroService;
         }
 
-        [HttpGet("buscar-livro")]
+        [HttpGet ("buscar-livro/{id:guid}")]
         public async Task<IActionResult> BuscarLivro(Guid id)
         {
             var livros = await _livroService.BuscarLivroAsync(id);

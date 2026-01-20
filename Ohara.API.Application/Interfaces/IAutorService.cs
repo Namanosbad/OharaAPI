@@ -4,6 +4,7 @@ namespace Ohara.API.Application.Interfaces
 {
     public interface IAutorService 
     {
-       Task<Autor> LivroPorAutorAsync(Guid autorId);
+        Task<List<Autor>> AutorAsync(string nome);
+        Task<Autor> LivroPorAutorAsync(Guid autorId);
     }
 }

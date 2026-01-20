@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ohara.API.Domain.Interfaces;
+using System.Linq.Expressions;
 
 namespace Ohara.API.Database.Repositories
 {
@@ -29,9 +30,11 @@ namespace Ohara.API.Database.Repositories
             else return true;
         }
 
-        public Task<List<T>> FindAsync(Func<T, bool> predicate)
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _DbSet
+                    .Where(predicate)
+                     .ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
