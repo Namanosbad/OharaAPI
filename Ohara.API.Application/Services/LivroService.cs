@@ -12,116 +12,81 @@ namespace Ohara.API.Application.Services
     {
         private readonly IRepository<Livro> _livroRepo;
         private readonly IRepository<Autor> _autorRepo;
-        private readonly IMapper _maper;
+        private readonly IMapper _mapper;
         public LivroService(IRepository<Livro> livroRepository, IRepository<Autor> autorRepository, IMapper mapper)
         {
             _livroRepo = livroRepository;
             _autorRepo = autorRepository;
-            _maper = mapper;
+            _mapper = mapper;
         }
 
         public async Task<LivroResponse> AdicionarLivroAsync(LivroRequest adicionarLivroRequest)
         {
-            //verificar se ja tem um livro com esse com esse nome
+            // 1. Busca o autor pelo nome que veio no Request
             var autores = await _autorRepo.FindAsync(a => a.Nome == adicionarLivroRequest.NomeAutor);
-
             var autor = autores.FirstOrDefault();
-            //se nao tiver pode cadastrar o livro
+
             if (autor == null)
             {
-                autor = new Autor
-                {
-                    Id = Guid.NewGuid(),
-                    Nome = adicionarLivroRequest.NomeAutor
-                };
-
-                autor = await _autorRepo.AddAsync(autor);
+                autor = new Autor { Id = Guid.NewGuid(), Nome = adicionarLivroRequest.NomeAutor };
+                await _autorRepo.AddAsync(autor);
             }
-            // Aqui eu crio o Livro (objeto de entrada)
-            var livro = new Livro
-            {
-                Id = Guid.NewGuid(),
-                Titulo = adicionarLivroRequest.Titulo,
-                Genero = adicionarLivroRequest.Genero,
-                Descricao = adicionarLivroRequest.Descricao,
-                Assunto = adicionarLivroRequest.Assunto,
-                ExemplarNumero = adicionarLivroRequest.ExemplarNumero,
-                ValorPago = adicionarLivroRequest.ValorPago,
-                Idioma = adicionarLivroRequest.Idioma,
-                DataPublicacao = adicionarLivroRequest.DataPublicacao,
-                ISBN = adicionarLivroRequest.ISBN,
-                Disponivel = adicionarLivroRequest.Disponivel,
-                NomeAutor = adicionarLivroRequest.NomeAutor,
-                AutorId = autor.Id
-            };
-            await _livroRepo.AddAsync(livro);
 
-            // O que retorna para o usuário
-            return new LivroResponse
-            {
-                Id = livro.Id,
-                Titulo = livro.Titulo,
-                Genero = livro.Genero,
-                Descricao = livro.Descricao,
-                Assunto = livro.Assunto,
-                ExemplarNumero = livro.ExemplarNumero,
-                ValorPago = livro.ValorPago,
-                Idioma = livro.Idioma,
-                DataPublicacao = livro.DataPublicacao, 
-                ISBN = livro.ISBN,
-                Disponivel = livro.Disponivel,
-                NomeAutor = autor.Nome,
-                DataCadastro = livro.DataCadastro
-            };
+            // 2. Mapeia o Request para a Entidade Livro
+            var livro = _mapper.Map<Livro>(adicionarLivroRequest);
+
+            // 3. Vincula o ID do autor encontrado/criado
+            livro.AutorId = autor.Id;
+
+            // 4. Salva e retorna o DTO
+            var livroSalvo = await _livroRepo.AddAsync(livro);
+            return _mapper.Map<LivroResponse>(livroSalvo);
         }
-
-        public Task<LivroResponse> AtualizarLivroAsync(LivroRequest livrorequest)
+        public async Task<LivroResponse> AtualizarLivroAsync(Guid id, LivroRequest atualizarLivroRequest)
         {
-            var atualizarLivro = _livroRepo.UpdateAsync(livrorequest);
-            return atualizarLivro;
+            var livroExistente = await _livroRepo.GetByIdAsync(id);
+            if (livroExistente == null) return null;
+
+            // Mapeia as alterações do Request para a Entidade existente
+            _mapper.Map(atualizarLivroRequest, livroExistente);
+
+            await _livroRepo.UpdateAsync(livroExistente);
+            return _mapper.Map<LivroResponse>(livroExistente);
         }
 
         public async Task<LivroResponse> BuscarLivroAsync(Guid id)
         {
-            var idLivro = await _livroRepo.GetByIdAsync(id);
-            return idLivro;
+            var livro = await _livroRepo.GetByIdAsync(id);
+            return _mapper.Map<LivroResponse>(livro);
         }
 
-        public async Task<List<LivroResponse>> BuscarPorTituloAsync(string titulo)
+        public async Task<IEnumerable<LivroResponse>> BuscarPorTituloAsync(string titulo)
         {
-            titulo = titulo.Trim();
-            return await _livroRepo.FindAsync(i => i.Titulo.Contains(titulo));
+            var livros = await _livroRepo.FindAsync(l => l.Titulo.Contains(titulo));
+            return _mapper.Map<IEnumerable<LivroResponse>>(livros); 
         }
 
         public async Task<IEnumerable<LivroResponse>> BuscarTodosLivrosAsync()
         {
-            var busca = await _livroRepo.GetAllAsync();
-            return busca.Select(livro => new LivroResponse
-            {
-                Id = livro.Id,
-                Titulo = livro.Titulo,
-                Genero = livro.Genero,
-                Descricao = livro.Descricao,
-                Assunto = livro.Assunto,
-                ExemplarNumero = livro.ExemplarNumero,
-                ValorPago = livro.ValorPago,
-                Idioma = livro.Idioma,
-                DataPublicacao = livro.DataPublicacao,
-                ISBN = livro.ISBN,
-                Disponivel = livro.Disponivel,
-                DataCadastro = livro.DataCadastro
-            });
+            var livros = await _livroRepo.GetAllAsync();
+            return _mapper.Map<IEnumerable<LivroResponse>>(livros);
         }
 
-        public async Task<LivroResponse> DeletarLivroAsync(Guid id)
+        public async Task<bool> DeletarLivroAsync(Guid id)
         {
-            var deletarLivro = await _livroRepo.DeleteAsync(id);
-            return deletarLivro;
+            var livro = await _livroRepo.GetByIdAsync(id);
+            if (livro == null) return false;
+            await _livroRepo.DeleteAsync(id);
+            return true;
         }
 
-        public async Task<List<LivroResponse>> LivroPorGenero(EGenero genero)
+        public async Task<List<LivroResponse>> LivroPorGeneroAsync(EGenero genero)
         {
-            return await _livroRepo.FindAsync(l => l.Genero == genero);
+            // Busca no repositório filtrando pelo valor do Enum
+            var livros = await _livroRepo.FindAsync(l => l.Genero == genero);
+
+            // Converte para a lista de Responses usando o AutoMapper
+            return _mapper.Map<List<LivroResponse>>(livros.ToList());
         }
     }
 }

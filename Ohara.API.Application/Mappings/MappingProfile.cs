@@ -9,19 +9,18 @@ namespace Ohara.API.Application.Mappings
     {
         public MappingProfile()
         {
-
             CreateMap<Livro, LivroResponse>()
-                .ForMember(dest => dest.NomeAutor, opt => opt.MapFrom(src => src.Autor != null ? src.Autor.Nome : "Autor não informado"));
+                .ForMember(dest => dest.NomeAutor, opt => opt.MapFrom(src => src.NomeAutor != null ? src.NomeAutor.Nome : null));
 
-            CreateMap<Autor, AutorResponse>()
-                .ForMember(dest => dest.Livros, opt => opt.MapFrom(src => src.Livros.Select(l => l.Titulo).ToList()));
+            CreateMap<Autor, AutorResponse>();
 
+            // REQUEST -> ENTIDADE (Entrada)
             CreateMap<LivroRequest, Livro>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid())) //
-                .ForMember(dest => dest.Autor, opt => opt.Ignore()); 
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
+                .ForMember(dest => dest.NomeAutor, opt => opt.Ignore());
 
             CreateMap<AutorRequest, Autor>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()));
-    }
+        }
     }
 }

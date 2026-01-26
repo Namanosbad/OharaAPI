@@ -24,7 +24,6 @@ namespace Ohara.API.Database.EntitiesConfiguration
                         .HasMaxLength(100);
                         
             builder.Property(x => x.Genero)
-                        //Já converter em string no banco.
                         .HasConversion<string>()
                         .IsRequired();
 
@@ -56,7 +55,7 @@ namespace Ohara.API.Database.EntitiesConfiguration
             builder.Property(x => x.Disponivel)
                         .IsRequired(); 
 
-            builder.HasOne(x => x.Autor)
+            builder.HasOne(x => x.NomeAutor)
                         .WithMany(a=> a.Livros)
                         .HasForeignKey(x => x.AutorId);
         }

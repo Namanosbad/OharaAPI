@@ -20,12 +20,13 @@ namespace Ohara.API.Database.Repositories
                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Livro>> LivroPorGenero(EGenero genero)
+        public async Task<IEnumerable<Livro>> LivroPorGenero(string genero)
         {
+
             return await _dbContext.Livros
-                .AsNoTracking()
-                .Where(i => i.Genero == genero)
-                .ToListAsync();
+                    .AsNoTracking()
+                    .Where(i => i.Genero.ToString().Contains(genero))
+                    .ToListAsync();
         }
     }
 }

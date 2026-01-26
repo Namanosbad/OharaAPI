@@ -3,11 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Ohara.API.Application.Interfaces;
+using Ohara.API.Application.Mappings;
 using Ohara.API.Application.Services;
 using Ohara.API.Database;
 using Ohara.API.Database.Repositories;
 using Ohara.API.Domain.Interfaces;
 using Ohara.API.Shared.Configuration;
+using AutoMapper;
 
 namespace Ohara.API.Ioc
 {
@@ -52,6 +54,7 @@ namespace Ohara.API.Ioc
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
             services.AddScoped<ILivroService, LivroService>();
             services.AddScoped<IAutorService, AutorService>();
+            services.AddAutoMapper(cfg => { }, typeof(MappingProfile).Assembly);
             return services;
         }
 
