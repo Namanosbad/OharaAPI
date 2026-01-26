@@ -1,11 +1,9 @@
-﻿using Ohara.API.Domain.Entities;
-using Ohara.API.Domain.Enums;
+﻿using Ohara.API.Domain.Enums;
 
-namespace Ohara.API.Application.Responses
+namespace Ohara.API.Application.Requests
 {
-    public class AdicionarLivroResponse
+    public class LivroRequest
     {
-        public Guid Id { get; set; }
         public string Titulo { get; set; }
         public EGenero Genero { get; set; }
         public string Descricao { get; set; }
@@ -17,7 +15,5 @@ namespace Ohara.API.Application.Responses
         public string? ISBN { get; set; }
         public bool Disponivel { get; set; }
         public string NomeAutor { get; set; }
-        public Guid AutorId { get; set; }
-        public DateTime DataCadastro { get; set; } = DateTime.Now;
     }
 }
