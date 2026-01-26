@@ -17,49 +17,57 @@ namespace Ohara.API.Internal.Controllers
             _livroService = livroService;
         }
 
-        [HttpGet ("buscar-livro/{id:guid}")]
+        [HttpGet ("{id:guid}")]
         public async Task<IActionResult> BuscarLivro(Guid id)
         {
             var livros = await _livroService.BuscarLivroAsync(id);
             return Ok(livros);
         }
 
-        [HttpGet("buscar-todos-livros")]
+        [HttpGet]
         public async Task<IActionResult> BuscarTodosLivros()
         {
             var todos = await _livroService.BuscarTodosLivrosAsync();
             return Ok(todos);
         }
 
-        [HttpGet("buscar-por-titulo")]
+        [HttpGet("titulo")]
         public async Task<IActionResult> BuscarLivroPorTitulo(string titulo)
         {
             var pelotitulo = await _livroService.BuscarPorTituloAsync(titulo);
             return Ok(pelotitulo);
         }
 
-        [HttpGet("buscar-genero")]
+        [HttpGet("genero")]
         public async Task<IActionResult> BuscarPorGenero(EGenero genero)
         {
-            var buscagenero = await _livroService.LivroPorGenero(genero);
-            return Ok(buscagenero);
+            var livros = await _livroService.LivroPorGeneroAsync(genero);
+
+            if (livros == null || !livros.Any())
+                return NotFound("Nenhum livro encontrado para este gênero.");
+
+            return Ok(livros);
         }
 
-        [HttpPost("cadastrar-livro")]
-        public async Task<AdicionarLivroResponse> CadastrarLivro(AdicionarLivroRequest adicionarLivroRequest)
+        [HttpPost("cadastrar")]
+        public async Task<IActionResult> CadastrarLivro([FromBody] LivroRequest adicionarLivroRequest)
         {
-            var autor = await _livroService.AdicionarLivroAsync(adicionarLivroRequest);
-            return autor;
+            var livro = await _livroService.AdicionarLivroAsync(adicionarLivroRequest);
+            return CreatedAtAction(nameof(BuscarLivro), new { id = livro.Id }, livro);
         }
 
-        [HttpPut("atualizar-livro")]
-        public async Task<IActionResult> AtualizarLivro(Livro livro)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> AtualizarLivro(Guid id, [FromBody] LivroRequest atualizarLivroRequest)
         {
-            var atualizar = await _livroService.AtualizarLivroAsync(livro);
-            return Ok(atualizar);
+            var atualizado = await _livroService.AtualizarLivroAsync(id, atualizarLivroRequest);
+
+            if (atualizado == null)
+                return NotFound("Livro não encontrado.");
+
+            return Ok(atualizado);
         }
 
-        [HttpDelete("deletar-livro")]
+            [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeletarLivro(Guid id)
         {
             var delete = await _livroService.DeletarLivroAsync(id);

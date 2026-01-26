@@ -16,13 +16,14 @@ namespace Ohara.API.Internal.Controllers
             _autorService = autorService;
         }
 
-        [HttpGet("Buscar-Livro-Autor")]
+        [HttpGet("livros")]
         public async Task<IActionResult> Livros(Guid id)
         {
             var autor = await _autorService.LivroPorAutorAsync(id);
             return Ok(autor);
         }
-        [HttpGet("Buscar-autor")]
+
+        [HttpGet]
         public async Task<IActionResult> Autor(string nome)
         {
             var autorLivro = await _autorService.AutorAsync(nome);
