@@ -21,6 +21,7 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> BuscarLivro(Guid id)
         {
             var livros = await _livroService.BuscarLivroAsync(id);
+            if (null == livros) return NotFound("Livro não encontrado");
             return Ok(livros);
         }
 
@@ -28,6 +29,7 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> BuscarTodosLivros()
         {
             var todos = await _livroService.BuscarTodosLivrosAsync();
+            if (null == todos) return NotFound("Nenhum livro encontrado");
             return Ok(todos);
         }
 
@@ -35,6 +37,7 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> BuscarLivroPorTitulo(string titulo)
         {
             var pelotitulo = await _livroService.BuscarPorTituloAsync(titulo);
+            if (null == pelotitulo) return NotFound("Nenhum livro encontrado com este título");
             return Ok(pelotitulo);
         }
 
@@ -52,7 +55,13 @@ namespace Ohara.API.Internal.Controllers
         [HttpPost("cadastrar")]
         public async Task<IActionResult> CadastrarLivro([FromBody] LivroRequest adicionarLivroRequest)
         {
+            if (adicionarLivroRequest == null)
+                return BadRequest("Os dados do livro são obrigatórios.");
+
             var livro = await _livroService.AdicionarLivroAsync(adicionarLivroRequest);
+    
+            if (livro == null)
+                return BadRequest("Não foi possível cadastrar o livro. Verifique os dados enviados.");
             return CreatedAtAction(nameof(BuscarLivro), new { id = livro.Id }, livro);
         }
 
@@ -71,6 +80,7 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> DeletarLivro(Guid id)
         {
             var delete = await _livroService.DeletarLivroAsync(id);
+            if (delete is false) return NotFound("Livro não encontrado para deletar"); 
             return Ok(delete);
         }
     }
