@@ -10,7 +10,7 @@ namespace Ohara.API.Application.Services
     {
         private readonly IRepository<Autor> _repo;
         private readonly IMapper _mapper;
-        public AutorService(IRepository<Autor> repository, IMapper mapper) 
+        public AutorService(IRepository<Autor> repository, IMapper mapper)
         {
             _repo = repository;
             _mapper = mapper;

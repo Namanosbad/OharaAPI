@@ -7,8 +7,8 @@ namespace Ohara.API.Database.Repositories
     public class EFRepository<T> : IRepository<T> where T : class, IEntity
     {
         private readonly OharaDbContext _oharaDbContext;
-        private readonly DbSet<T> _DbSet; 
-        
+        private readonly DbSet<T> _DbSet;
+
         public EFRepository(OharaDbContext oharaDbContext)
         {
             _oharaDbContext = oharaDbContext;
@@ -25,7 +25,7 @@ namespace Ohara.API.Database.Repositories
         public async Task<bool> ExistAsync(Guid id)
         {
             var entity = await _DbSet.FindAsync(id);
-            if (entity is null) 
+            if (entity is null)
                 return false;
             else return true;
         }
@@ -51,7 +51,7 @@ namespace Ohara.API.Database.Repositories
         {
             _DbSet.Update(Tentity);
             await _oharaDbContext.SaveChangesAsync();
-            return Tentity;       
+            return Tentity;
         }
 
         public async Task<T> DeleteAsync(Guid id)
@@ -59,7 +59,7 @@ namespace Ohara.API.Database.Repositories
             var entity = await _DbSet.FindAsync(id);
             if (entity is null)
 
-            _DbSet.Remove(entity);
+                _DbSet.Remove(entity);
             await _oharaDbContext.SaveChangesAsync();
             return entity;
         }

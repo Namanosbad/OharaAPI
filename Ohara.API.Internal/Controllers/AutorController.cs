@@ -5,7 +5,6 @@ namespace Ohara.API.Internal.Controllers
 {
     [ApiController]
     [Route("api/v/[controller]")]
-    //controlador herda de Controller
     [Produces("application/json")]
     public class AutorController : ControllerBase
     {

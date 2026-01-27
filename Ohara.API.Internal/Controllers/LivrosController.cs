@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ohara.API.Application.Interfaces;
 using Ohara.API.Application.Requests;
-using Ohara.API.Application.Responses;
-using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Enums;
 
 namespace Ohara.API.Internal.Controllers
@@ -17,7 +15,7 @@ namespace Ohara.API.Internal.Controllers
             _livroService = livroService;
         }
 
-        [HttpGet ("{id:guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> BuscarLivro(Guid id)
         {
             var livros = await _livroService.BuscarLivroAsync(id);
@@ -59,7 +57,7 @@ namespace Ohara.API.Internal.Controllers
                 return BadRequest("Os dados do livro são obrigatórios.");
 
             var livro = await _livroService.AdicionarLivroAsync(adicionarLivroRequest);
-    
+
             if (livro == null)
                 return BadRequest("Não foi possível cadastrar o livro. Verifique os dados enviados.");
             return CreatedAtAction(nameof(BuscarLivro), new { id = livro.Id }, livro);
@@ -76,11 +74,11 @@ namespace Ohara.API.Internal.Controllers
             return Ok(atualizado);
         }
 
-            [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeletarLivro(Guid id)
         {
             var delete = await _livroService.DeletarLivroAsync(id);
-            if (delete is false) return NotFound("Livro não encontrado para deletar"); 
+            if (delete is false) return NotFound("Livro não encontrado para deletar");
             return Ok(delete);
         }
     }

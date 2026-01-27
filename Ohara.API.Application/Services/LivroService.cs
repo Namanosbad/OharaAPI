@@ -47,7 +47,6 @@ namespace Ohara.API.Application.Services
             var livroExistente = await _livroRepo.GetByIdAsync(id);
             if (livroExistente == null) return null;
 
-            // Mapeia as alterações do Request para a Entidade existente
             _mapper.Map(atualizarLivroRequest, livroExistente);
 
             await _livroRepo.UpdateAsync(livroExistente);
@@ -63,7 +62,7 @@ namespace Ohara.API.Application.Services
         public async Task<IEnumerable<LivroResponse>> BuscarPorTituloAsync(string titulo)
         {
             var livros = await _livroRepo.FindAsync(l => l.Titulo.Contains(titulo));
-            return _mapper.Map<IEnumerable<LivroResponse>>(livros); 
+            return _mapper.Map<IEnumerable<LivroResponse>>(livros);
         }
 
         public async Task<IEnumerable<LivroResponse>> BuscarTodosLivrosAsync()

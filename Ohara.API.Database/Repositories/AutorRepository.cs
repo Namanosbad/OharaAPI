@@ -9,7 +9,7 @@ namespace Ohara.API.Database.Repositories
         private readonly OharaDbContext _dbContext;
         public AutorRepository(OharaDbContext oharaDbContext)
         {
-             _dbContext = oharaDbContext;
+            _dbContext = oharaDbContext;
         }
 
         public async Task<Autor> LivroPorAutorAsync(Guid autorId)

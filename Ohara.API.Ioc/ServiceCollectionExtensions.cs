@@ -9,14 +9,13 @@ using Ohara.API.Database;
 using Ohara.API.Database.Repositories;
 using Ohara.API.Domain.Interfaces;
 using Ohara.API.Shared.Configuration;
-using AutoMapper;
 
 namespace Ohara.API.Ioc
 {
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServices (this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext(configuration);
             services.AddApplicationServices(configuration);
