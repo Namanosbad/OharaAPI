@@ -22,7 +22,7 @@ namespace Ohara.API.Database.EntitiesConfiguration
             builder.Property(x => x.Titulo)
                         .IsRequired()
                         .HasMaxLength(100);
-                        
+
             builder.Property(x => x.Genero)
                         .HasConversion<string>()
                         .IsRequired();
@@ -51,12 +51,12 @@ namespace Ohara.API.Database.EntitiesConfiguration
 
             builder.Property(x => x.ISBN)
                         .HasMaxLength(20);
-                        
+
             builder.Property(x => x.Disponivel)
-                        .IsRequired(); 
+                        .IsRequired();
 
             builder.HasOne(x => x.NomeAutor)
-                        .WithMany(a=> a.Livros)
+                        .WithMany(a => a.Livros)
                         .HasForeignKey(x => x.AutorId);
         }
     }

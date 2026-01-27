@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ohara.API.Domain.Entities;
-using Ohara.API.Domain.Enums;
 using Ohara.API.Domain.Interfaces;
 
 namespace Ohara.API.Database.Repositories

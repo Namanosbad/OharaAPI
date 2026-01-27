@@ -1,6 +1,5 @@
 ﻿using Ohara.API.Application.Requests;
 using Ohara.API.Application.Responses;
-using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Enums;
 
 namespace Ohara.API.Application.Interfaces
@@ -13,6 +12,6 @@ namespace Ohara.API.Application.Interfaces
         Task<LivroResponse> AtualizarLivroAsync(Guid id, LivroRequest atualizarLivroRequest);
         Task<bool> DeletarLivroAsync(Guid id);
         Task<IEnumerable<LivroResponse>> BuscarPorTituloAsync(string titulo);
-        Task<List<LivroResponse>> LivroPorGeneroAsync(EGenero genero);  
+        Task<List<LivroResponse>> LivroPorGeneroAsync(EGenero genero);
     }
 }
