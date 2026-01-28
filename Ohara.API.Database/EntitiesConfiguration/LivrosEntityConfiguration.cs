@@ -55,7 +55,7 @@ namespace Ohara.API.Database.EntitiesConfiguration
             builder.Property(x => x.Disponivel)
                         .IsRequired();
 
-            builder.HasOne(x => x.NomeAutor)
+            builder.HasOne(x => x.Autor)
                         .WithMany(a => a.Livros)
                         .HasForeignKey(x => x.AutorId);
         }

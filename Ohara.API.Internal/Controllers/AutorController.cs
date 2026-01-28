@@ -19,7 +19,6 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> Livros(Guid id)
         {
             var autor = await _autorService.LivroPorAutorAsync(id);
-            if (autor == null) return NotFound("Nenhum livro encontrado!");
             return Ok(autor);
         }
 
@@ -27,7 +26,6 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> Autor(string nome)
         {
             var autorLivro = await _autorService.AutorAsync(nome);
-            if (autorLivro == null) return NotFound("Nenhum autor encontrado");
             return Ok(autorLivro);
         }
     }

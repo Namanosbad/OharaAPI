@@ -18,6 +18,6 @@ public class Livro : IEntity
     public bool Disponivel { get; set; }
 
     public Guid AutorId { get; set; }
-    public Autor NomeAutor { get; set; }
+    public Autor Autor { get; set; }
     public DateTime DataCadastro { get; set; } = DateTime.Now;
 }

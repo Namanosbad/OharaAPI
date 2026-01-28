@@ -27,5 +27,6 @@ namespace Ohara.API.Database.Repositories
                     .Where(i => i.Genero.ToString().Contains(genero))
                     .ToListAsync();
         }
+
     }
 }

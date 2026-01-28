@@ -3,6 +3,7 @@ using Ohara.API.Application.Interfaces;
 using Ohara.API.Application.Responses;
 using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Interfaces;
+using Ohara.API.Shared.Models;
 
 namespace Ohara.API.Application.Services
 {
@@ -25,6 +26,7 @@ namespace Ohara.API.Application.Services
         public async Task<AutorResponse> LivroPorAutorAsync(Guid autorId)
         {
             var autor = await _repo.GetByIdAsync(autorId);
+            if (autor == null) throw new BusinessException("nenhum autor encontrado");
             return _mapper.Map<AutorResponse>(autor);
         }
     }
