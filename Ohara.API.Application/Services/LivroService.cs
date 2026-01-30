@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Ohara.API.Application.Interfaces;
-using Ohara.API.Application.Requests;
-using Ohara.API.Application.Responses;
 using Ohara.API.Domain.Entities;
-using Ohara.API.Domain.Enums;
 using Ohara.API.Domain.Interfaces;
+using Ohara.API.Shared.Enums;
 using Ohara.API.Shared.Models;
+using Ohara.API.Shared.Requests;
+using Ohara.API.Shared.Responses;
 
 namespace Ohara.API.Application.Services
 {

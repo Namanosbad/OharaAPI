@@ -1,5 +1,5 @@
-﻿using Ohara.API.Domain.Enums;
-using Ohara.API.Domain.Interfaces;
+﻿using Ohara.API.Domain.Interfaces;
+using Ohara.API.Shared.Enums;
 
 namespace Ohara.API.Domain.Entities;
 

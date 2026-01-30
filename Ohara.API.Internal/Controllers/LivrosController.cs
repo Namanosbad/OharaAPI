@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ohara.API.Application.Interfaces;
-using Ohara.API.Application.Requests;
-using Ohara.API.Domain.Enums;
+using Ohara.API.Shared.Enums;
+using Ohara.API.Shared.Requests;
 
 namespace Ohara.API.Internal.Controllers
 {

@@ -4,7 +4,7 @@ using Ohara.API.Application.Interfaces;
 namespace Ohara.API.Internal.Controllers
 {
     [ApiController]
-    [Route("api/v/[controller]")]
+    [Route("api/v1/[controller]")]
     [Produces("application/json")]
     public class AutorController : ControllerBase
     {
@@ -13,6 +13,13 @@ namespace Ohara.API.Internal.Controllers
         public AutorController(IAutorService autorService)
         {
             _autorService = autorService;
+        }
+
+        [HttpGet("listar")]
+        public async Task<IActionResult> Listar()
+        {
+            var autores = await _autorService.ListarAsync();
+            return Ok(autores);
         }
 
         [HttpGet("livros")]

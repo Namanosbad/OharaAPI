@@ -1,6 +1,6 @@
-﻿using Ohara.API.Application.Requests;
-using Ohara.API.Application.Responses;
-using Ohara.API.Domain.Enums;
+﻿using Ohara.API.Shared.Enums;
+using Ohara.API.Shared.Requests;
+using Ohara.API.Shared.Responses;
 
 namespace Ohara.API.Application.Interfaces
 {

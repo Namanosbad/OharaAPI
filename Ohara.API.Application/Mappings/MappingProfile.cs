@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Ohara.API.Application.Requests;
-using Ohara.API.Application.Responses;
 using Ohara.API.Domain.Entities;
+using Ohara.API.Shared.Requests;
+using Ohara.API.Shared.Responses;
 
 namespace Ohara.API.Application.Mappings
 {

@@ -1,0 +1,32 @@
+﻿@page "/autores"
+
+@inject AutorService AutorService
+
+<h3>Autores</h3>
+
+@if (autores == null)
+{
+    <p>Carregando autores...</p>
+}
+else if (!autores.Any())
+{
+    <p>Nenhum autor cadastrado.</p>
+}
+else
+{
+    <ul>
+        @foreach (var autor in autores)
+        {
+            <li>@autor.Nome</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<AutorResponse>? autores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        autores = await AutorService.ObterTodos();
+    }
+}

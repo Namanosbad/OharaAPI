@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ohara.API.Shared\Ohara.API.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

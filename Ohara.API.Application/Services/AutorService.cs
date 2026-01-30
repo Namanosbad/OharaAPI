@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Ohara.API.Application.Interfaces;
-using Ohara.API.Application.Responses;
 using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Interfaces;
 using Ohara.API.Shared.Models;
+using Ohara.API.Shared.Responses;
 
 namespace Ohara.API.Application.Services
 {
@@ -15,6 +15,12 @@ namespace Ohara.API.Application.Services
         {
             _repo = repository;
             _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<AutorResponse>> ListarAsync()
+        {
+            var autores = await _repo.GetAllAsync();
+            return _mapper.Map<IEnumerable<AutorResponse>>(autores);
         }
 
         public async Task<List<AutorResponse>> AutorAsync(string nome)
