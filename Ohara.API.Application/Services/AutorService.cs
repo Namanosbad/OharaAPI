@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Ohara.API.Application.Interfaces;
-using Ohara.API.Application.Responses;
 using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Interfaces;
+using Ohara.API.Shared.Models;
+using Ohara.API.Shared.Responses;
 
 namespace Ohara.API.Application.Services
 {
@@ -16,6 +17,12 @@ namespace Ohara.API.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<AutorResponse>> ListarAsync()
+        {
+            var autores = await _repo.GetAllAsync();
+            return _mapper.Map<IEnumerable<AutorResponse>>(autores);
+        }
+
         public async Task<List<AutorResponse>> AutorAsync(string nome)
         {
             var autores = await _repo.FindAsync(a => a.Nome.Contains(nome));
@@ -25,6 +32,7 @@ namespace Ohara.API.Application.Services
         public async Task<AutorResponse> LivroPorAutorAsync(Guid autorId)
         {
             var autor = await _repo.GetByIdAsync(autorId);
+            if (autor == null) throw new BusinessException("nenhum autor encontrado");
             return _mapper.Map<AutorResponse>(autor);
         }
     }

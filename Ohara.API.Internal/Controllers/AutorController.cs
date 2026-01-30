@@ -4,7 +4,7 @@ using Ohara.API.Application.Interfaces;
 namespace Ohara.API.Internal.Controllers
 {
     [ApiController]
-    [Route("api/v/[controller]")]
+    [Route("api/v1/[controller]")]
     [Produces("application/json")]
     public class AutorController : ControllerBase
     {
@@ -15,11 +15,17 @@ namespace Ohara.API.Internal.Controllers
             _autorService = autorService;
         }
 
+        [HttpGet("listar")]
+        public async Task<IActionResult> Listar()
+        {
+            var autores = await _autorService.ListarAsync();
+            return Ok(autores);
+        }
+
         [HttpGet("livros")]
         public async Task<IActionResult> Livros(Guid id)
         {
             var autor = await _autorService.LivroPorAutorAsync(id);
-            if (autor == null) return NotFound("Nenhum livro encontrado!");
             return Ok(autor);
         }
 
@@ -27,7 +33,6 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> Autor(string nome)
         {
             var autorLivro = await _autorService.AutorAsync(nome);
-            if (autorLivro == null) return NotFound("Nenhum autor encontrado");
             return Ok(autorLivro);
         }
     }

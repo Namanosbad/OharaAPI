@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ohara.API.Domain\Ohara.API.Domain.csproj" />
+    <ProjectReference Include="..\Ohara.API.Shared\Ohara.API.Shared.csproj" />
   </ItemGroup>
 
 </Project>

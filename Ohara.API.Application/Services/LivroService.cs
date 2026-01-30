@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Ohara.API.Application.Interfaces;
-using Ohara.API.Application.Requests;
-using Ohara.API.Application.Responses;
 using Ohara.API.Domain.Entities;
-using Ohara.API.Domain.Enums;
 using Ohara.API.Domain.Interfaces;
+using Ohara.API.Shared.Enums;
+using Ohara.API.Shared.Models;
+using Ohara.API.Shared.Requests;
+using Ohara.API.Shared.Responses;
 
 namespace Ohara.API.Application.Services
 {
@@ -22,23 +23,41 @@ namespace Ohara.API.Application.Services
 
         public async Task<LivroResponse> AdicionarLivroAsync(LivroRequest adicionarLivroRequest)
         {
-            // 1. Busca o autor pelo nome que veio no Request
+            if (string.IsNullOrWhiteSpace(adicionarLivroRequest.Titulo))
+                throw new ArgumentException("Título é obrigatório.");
+
+            if (string.IsNullOrWhiteSpace(adicionarLivroRequest.NomeAutor))
+                throw new ArgumentException("Nome do autor é obrigatório.");
+
+            // 2. Regra de negócio: livro duplicado
+            var livroExistente = await _livroRepo.FindAsync(l =>
+                l.Titulo == adicionarLivroRequest.Titulo &&
+                l.Autor.Nome == adicionarLivroRequest.NomeAutor);
+
+            if (livroExistente.Any())
+                throw new BusinessException("Já existe um livro com esse título para esse autor.");
+
+            // 3. Busca autor
             var autores = await _autorRepo.FindAsync(a => a.Nome == adicionarLivroRequest.NomeAutor);
             var autor = autores.FirstOrDefault();
 
+            // 4. Regra de negócio: criar autor se não existir
             if (autor == null)
             {
-                autor = new Autor { Id = Guid.NewGuid(), Nome = adicionarLivroRequest.NomeAutor };
+                autor = new Autor
+                {
+                    Id = Guid.NewGuid(),
+                    Nome = adicionarLivroRequest.NomeAutor
+                };
+
                 await _autorRepo.AddAsync(autor);
             }
 
-            // 2. Mapeia o Request para a Entidade Livro
+            // 5. Mapeia request → entidade
             var livro = _mapper.Map<Livro>(adicionarLivroRequest);
-
-            // 3. Vincula o ID do autor encontrado/criado
             livro.AutorId = autor.Id;
 
-            // 4. Salva e retorna o DTO
+            // 6. Salva
             var livroSalvo = await _livroRepo.AddAsync(livro);
             return _mapper.Map<LivroResponse>(livroSalvo);
         }
