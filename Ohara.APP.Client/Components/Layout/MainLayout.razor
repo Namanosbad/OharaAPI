@@ -1,17 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+
+<div class="app-layout">
+    <div class="app-header">
+        🏴‍☠️ <strong>Biblioteca Ohara</strong>
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+
+    <div class="app-body">
+        <div class="app-sidebar">
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
+
+        <main class="app-content">
             @Body
-        </article>
-    </main>
+        </main>
+    </div>
 </div>

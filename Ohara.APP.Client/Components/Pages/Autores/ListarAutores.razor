@@ -1,32 +1,51 @@
 ﻿@page "/autores"
-
 @inject AutorService AutorService
 
-<h3>Autores</h3>
 
-@if (autores == null)
-{
-    <p>Carregando autores...</p>
-}
-else if (!autores.Any())
-{
-    <p>Nenhum autor cadastrado.</p>
-}
-else
-{
-    <ul>
-        @foreach (var autor in autores)
-        {
-            <li>@autor.Nome</li>
-        }
-    </ul>
-}
+<div class="page">
+    <div class="header">
+        <h2>📚 Autores</h2>
+        <input @bind="filtro" @bind:event="oninput" placeholder="Buscar autor..." class="search" />
+    </div>
+
+
+    @if (autores == null)
+    {
+        <div class="loading">Carregando autores...</div>
+    }
+    else
+    {
+        <div class="grid">
+            @foreach (var autor in AutoresFiltrados)
+            {
+                <div class="card">
+                    <div class="avatar">@autor.Nome.Substring(0, 1).ToUpper()</div>
+                    <div class="info">
+                        <h4>@autor.Nome</h4>
+                        <button @onclick="() => SelecionarAutor(autor.Id)">Ver detalhes</button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
 
 @code {
     private List<AutorResponse>? autores;
+    private string filtro = string.Empty;
+
+
+    private IEnumerable<AutorResponse> AutoresFiltrados =>
+    autores?.Where(a => string.IsNullOrWhiteSpace(filtro) || a.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase))
+    ?? Enumerable.Empty<AutorResponse>();
+
 
     protected override async Task OnInitializedAsync()
     {
         autores = await AutorService.ObterTodos();
     }
+
+
+    private void SelecionarAutor(Guid id) { }
 }
