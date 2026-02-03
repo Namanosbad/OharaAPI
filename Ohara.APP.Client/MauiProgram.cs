@@ -38,6 +38,7 @@ public static class MauiProgram
 
         // 🔗 Services do app
         builder.Services.AddScoped<AutorService>();
+        builder.Services.AddScoped<LivroService>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

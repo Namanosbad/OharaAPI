@@ -1,129 +1,16 @@
-﻿:root {
-    background: var(--pergaminho);
-    border-right: 2px solid var(--ouro);
-    padding: 10px;
+﻿@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel+Decorative:wght@400;700&family=Old+Standard+TT&display=swap');
+
+:root {
+    --map-bg: #e2c58a;
+    --ink: #3d2b1f;
+    --gold: #d4af37;
+    --wood: #2a1b12;
 }
 
-
-.nav-menu a {
-    display: block;
-    padding: 10px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: var(--texto);
-    margin-bottom: 6px;
-    transition: .2s;
-    font-weight: 500;
-}
-
-    .nav-menu a:hover {
-        background: rgba(11,60,93,.12);
-    }
-
-    .nav-menu a.active {
-        background: var(--mar);
-        color: white;
-    }
-
-
-.app-content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(4px);
-}
-
-
-/* ===== HOME ===== */
-.ohara-home {
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-
-.hero {
-    background: linear-gradient(135deg, var(--mar), var(--mar-claro));
-    padding: 90px 40px;
-    color: white;
-    text-align: center;
-}
-
-    .hero h1 {
-        font-size: 2.4rem;
-        margin-bottom: 10px;
-    }
-
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 1rem;
-    padding: 30px;
-}
-
-.stat-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,.12);
-    border-left: 4px solid var(--ouro);
-}
-
-
-.about {
-    padding: 30px;
-    background: white;
-    border-radius: 0 0 16px 16px;
-}
-
-
-/* ===== AUTORES ===== */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
-    gap: 1rem;
-}
-
-.card {
-    display: flex;
-    gap: .75rem;
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.08);
-    background: white;
-    border: 1px solid #e0d7c0;
-}
-
-.avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    background: #e6f0ff;
-    color: #1f4bd8;
-}
-
-.info h4 {
-    margin: 0 0 .25rem 0;
-}
-
-.info button {
-    padding: .35rem .7rem;
-    border: none;
-    border-radius: 8px;
-    background: var(--mar);
-    color: white;
-    cursor: pointer;
-}
-
-
-@media (max-width:900px) {
-    .stats {
-        grid-template-columns: 1fr;
-    }
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: var(--map-bg);
+    overflow-x: hidden;
 }

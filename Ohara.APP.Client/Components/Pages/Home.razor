@@ -1,34 +1,235 @@
 ﻿@page "/"
 
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Special+Elite&family=Cinzel+Decorative:wght@700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
 
-<div class="ohara-home">
-    <div class="hero">
-        <h1>📚 Biblioteca Ohara</h1>
-        <p>"Onde o conhecimento atravessa eras, mares e impérios."</p>
+    :root {
+        --map-bg: #e5d1a5;
+        --p-base: #d2b48c;
+        --p-dark: #8b6d45;
+        --p-light: #e8d5b5;
+        --ink: #2a1b12;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+        background-color: var(--map-bg);
+    }
+
+    .adventure-container {
+        height: 100vh;
+        width: 100%;
+        background: var(--map-bg) url('images/mapa-fundo.png') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2vh 20px;
+    }
+
+    .map-header {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-grow: 1; /* Faz o cabeçalho ocupar o espaço livre, empurrando a frase para baixo */
+        justify-content: flex-start;
+    }
+
+    .main-logo {
+        max-width: 800px;
+        width: 45vw;
+        filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4));
+        margin-top: 2vh;
+    }
+
+    /* FRASE: LONGE DO LOGO E PERTO DO WANTED */
+    .map-header p {
+        font-family: 'IM Fell English SC', serif;
+        font-size: 2.8rem;
+        color: #ffffff;
+        margin-top: auto; /* Empurra a frase para o limite inferior do header */
+        margin-bottom: 2vh; /* Cola no Wanted abaixo */
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        text-shadow: 4px 4px 0px #000, 0px 0px 20px rgba(0,0,0,0.7);
+    }
+
+    .map-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        max-width: 1300px;
+        width: 100%;
+        margin-bottom: 4vh;
+    }
+
+    /* WANTED COM CAMADAS DE COR E TAMANHO ORIGINAL */
+    .wanted-card {
+        text-decoration: none;
+        position: relative;
+        padding: 25px 20px;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E"), radial-gradient(circle at 15% 15%, rgba(139, 69, 19, 0.2), transparent 35%), radial-gradient(circle, var(--p-light) 0%, var(--p-base) 60%, var(--p-dark) 100%);
+        border: 2px solid #3d2b1f;
+        outline: 5px solid var(--p-base);
+        box-shadow: 0 0 0 8px #3d2b1f, 15px 20px 30px rgba(0,0,0,0.5), inset 0 0 50px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease;
+    }
+
+        .wanted-card:hover {
+            transform: translateY(-10px);
+        }
+
+    .wanted-header-text {
+        font-family: 'IM Fell English SC', serif;
+        font-size: 2.5rem;
+        color: var(--ink);
+        letter-spacing: 5px;
+        font-weight: 900;
+        margin-bottom: 10px;
+        border-bottom: 3px solid var(--ink);
+    }
+
+    .photo-frame {
+        border: 4px solid var(--ink);
+        padding: 8px;
+        width: 100%;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0,0,0,0.05);
+    }
+
+    .wanted-img {
+        max-height: 160px;
+        width: auto;
+        filter: sepia(0.8) contrast(1.2);
+    }
+
+    .wanted-content h3 {
+        font-family: 'Special Elite', cursive;
+        font-size: 1.6rem;
+        color: var(--ink);
+        margin-top: 15px;
+        text-transform: uppercase;
+    }
+
+    .wanted-content p {
+        font-family: 'Old Standard TT', serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--ink);
+        font-weight: bold;
+    }
+
+    footer {
+        flex-shrink: 0;
+        padding-bottom: 3vh;
+        text-align: center;
+    }
+
+        /* FOOTER TEXTO ORIGINAL COM LINK */
+        footer p {
+            font-family: 'Cinzel Decorative';
+            color: var(--ink);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        footer a {
+            color: inherit;
+            text-decoration: underline;
+            background: rgba(0,0,0,0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+            footer a:hover {
+                background: var(--ink);
+                color: #fff;
+            }
+
+    .thumbtack {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: radial-gradient(circle at 30% 30%, #666, #111);
+        border-radius: 50%;
+        top: 10px;
+        z-index: 5;
+    }
+
+    .tack-left {
+        left: 10px;
+    }
+
+    .tack-right {
+        right: 10px;
+    }
+
+</style>
+
+<div class="adventure-container">
+    <div class="map-header">
+        <img src="images/logo-ohara.png" alt="Biblioteca Ohara" class="main-logo" />
+        <p>“Onde o conhecimento resiste ao tempo e sobrevive às ondas.”</p>
     </div>
 
+    <div class="map-grid">
+        <a href="/autores" class="wanted-card">
+            <div class="thumbtack tack-left"></div>
+            <div class="thumbtack tack-right"></div>
+            <h2 class="wanted-header-text">WANTED</h2>
+            <div class="photo-frame">
+                <img src="images/livro-ohara.png" class="wanted-img" />
+            </div>
+            <div class="wanted-content">
+                <h3>Tesouros Literários</h3>
+                <p>Descubra histórias raras resgatadas das correntes marítimas.</p>
+            </div>
+        </a>
 
-    <div class="stats">
-        <div class="stat-card">
-            <h3>🌊 Conhecimento</h3>
-            <p>Preservado além dos mares.</p>
-        </div>
-        <div class="stat-card">
-            <h3>📖 História</h3>
-            <p>Registrada como em Ohara.</p>
-        </div>
-        <div class="stat-card">
-            <h3>🗺️ Descoberta</h3>
-            <p>Explore nossos autores.</p>
-        </div>
+        <a href="/autores" class="wanted-card">
+            <div class="thumbtack tack-left"></div>
+            <div class="thumbtack tack-right"></div>
+            <h2 class="wanted-header-text">WANTED</h2>
+            <div class="photo-frame">
+                <img src="images/tesouro-ohara.png" class="wanted-img" />
+            </div>
+            <div class="wanted-content">
+                <h3>Segredos Antigos</h3>
+                <p>Revelando mistérios do passado e do Século Perdido.</p>
+            </div>
+        </a>
+
+        <a href="/autores" class="wanted-card">
+            <div class="thumbtack tack-left"></div>
+            <div class="thumbtack tack-right"></div>
+            <h2 class="wanted-header-text">WANTED</h2>
+            <div class="photo-frame">
+                <img src="images/chapeu-ohara.png" class="wanted-img" />
+            </div>
+            <div class="wanted-content">
+                <h3>Lendas do Mar</h3>
+                <p>Contos épicos dos maiores piratas de todos os mares.</p>
+            </div>
+        </a>
     </div>
 
-
-    <div class="about">
-        <h2>Sobre a Biblioteca</h2>
-        <p>
-            Inspirada na lendária Ilha de Ohara, esta biblioteca reúne autores, ideias e histórias que desafiam o tempo —
-            assim como os arqueólogos que buscavam a verdade no mundo de One Piece.
-        </p>
-    </div>
+    <footer>
+        <p>⚓ Claro, tem um lugar para os exploradores técnicos como você: <a href="https://github.com/Namanosbad/OharaAPI" target="_blank">⚓ Acesse a API da Biblioteca | 2026 ⚓</a></p>
+    </footer>
 </div>
