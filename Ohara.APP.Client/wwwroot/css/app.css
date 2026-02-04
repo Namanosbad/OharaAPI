@@ -14,3 +14,22 @@ html, body {
     background-color: var(--map-bg);
     overflow-x: hidden;
 }
+
+
+
+
+
+
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.wanted-card {
+    cursor: pointer;
+}

@@ -1,51 +1,289 @@
 ﻿@page "/autores"
 @inject AutorService AutorService
+@inject NavigationManager Nav
 
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Special+Elite&family=Cinzel+Decorative:wght@700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
 
-<div class="page">
-    <div class="header">
-        <h2>📚 Autores</h2>
-        <input @bind="filtro" @bind:event="oninput" placeholder="Buscar autor..." class="search" />
+    :root {
+        --map-bg: #e5d1a5;
+        --p-base: #d2b48c;
+        --p-dark: #8b6d45;
+        --p-light: #e8d5b5;
+        --ink: #2a1b12;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+        background-color: var(--map-bg);
+    }
+
+    .adventure-container {
+        height: 100vh;
+        width: 100%;
+        background: var(--map-bg) url('images/mapa-fundo.png') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2vh 20px;
+    }
+
+    .map-header {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 3vh; /* mantive igual */
+    }
+
+        .map-header p {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 2.6rem;
+            color: #ffffff;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 4px 4px 0px #000, 0px 0px 20px rgba(0,0,0,0.7);
+            /* 🔽 AUMENTEI SÓ ISSO AQUI 🔽 */
+            margin-bottom: 3vh; /* era 1.5vh → agora bem mais espaço */
+        }
+
+    .search-input {
+        padding: 10px 15px;
+        width: 320px;
+        border: 2px solid var(--ink);
+        background: rgba(255,255,255,0.85);
+        font-family: 'Old Standard TT';
+        border-radius: 6px;
+        text-align: center;
+    }
+
+    .map-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        max-width: 1300px;
+        width: 100%;
+        margin-top: 2vh; /* não mexi aqui */
+        margin-bottom: 4vh;
+    }
+
+    /* ======= CARTAZ (MESMO TAMANHO DO HOME) ======= */
+    .wanted-card {
+        text-decoration: none;
+        position: relative;
+        padding: 25px 20px;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E"), radial-gradient(circle at 15% 15%, rgba(139, 69, 19, 0.2), transparent 35%), radial-gradient(circle, var(--p-light) 0%, var(--p-base) 60%, var(--p-dark) 100%);
+        border: 2px solid #3d2b1f;
+        outline: 5px solid var(--p-base);
+        box-shadow: 0 0 0 8px #3d2b1f, 15px 20px 30px rgba(0,0,0,0.5), inset 0 0 50px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+        .wanted-card:hover {
+            transform: translateY(-10px);
+        }
+
+    .wanted-header-text {
+        font-family: 'IM Fell English SC', serif;
+        font-size: 2.5rem;
+        color: var(--ink);
+        letter-spacing: 5px;
+        font-weight: 900;
+        margin-bottom: 10px;
+        border-bottom: 3px solid var(--ink);
+        text-align: center;
+    }
+
+    .photo-frame {
+        border: 4px solid var(--ink);
+        padding: 8px;
+        width: 100%;
+        height: 250px; /* IGUAL AO HOME */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0,0,0,0.05);
+    }
+
+    .wanted-img {
+        font-size: 90px;
+        font-weight: bold;
+        font-family: 'Special Elite', cursive;
+        color: var(--ink);
+        filter: sepia(0.8) contrast(1.2);
+    }
+
+    .wanted-content {
+        text-align: center;
+        width: 100%;
+    }
+
+        .wanted-content h3 {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.6rem;
+            color: var(--ink);
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+    .wanted-status {
+        font-family: 'Old Standard TT', serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--ink);
+        font-weight: bold;
+    }
+
+    .wanted-bounty {
+        font-family: 'Special Elite', cursive;
+        font-size: 1.4rem;
+        color: var(--ink);
+        font-weight: bold;
+        letter-spacing: 1px;
+        border-top: 1px solid var(--ink);
+        margin-top: 6px;
+        padding-top: 4px;
+    }
+
+        .wanted-bounty .currency {
+            font-size: 1.1rem;
+        }
+
+    .thumbtack {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: radial-gradient(circle at 30% 30%, #666, #111);
+        border-radius: 50%;
+        top: 10px;
+        z-index: 5;
+    }
+
+    .tack-left {
+        left: 10px;
+    }
+
+    .tack-right {
+        right: 10px;
+    }
+
+    .loading-container {
+        color: white;
+        font-family: 'Old Standard TT';
+        text-align: center;
+        margin-top: 10vh;
+    }
+
+    .back-scroll {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        padding: 10px 18px;
+        font-family: 'IM Fell English SC', serif;
+        font-size: 1rem;
+        color: #2a1b12;
+        background: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.4), transparent 35%), linear-gradient(180deg, #e8d5b5, #d2b48c);
+        border: 2px solid #3d2b1f;
+        box-shadow: 4px 6px 10px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        z-index: 999;
+    }
+
+        .back-scroll:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 8px 14px rgba(0,0,0,0.5);
+        }
+</style>
+
+<div class="adventure-container">
+
+    <div class="map-header">
+        <p>REGISTROS DE LENDAS</p>
+
+        <input @bind="filtro"
+               @bind:event="oninput"
+               placeholder="Buscar autor pelo nome..."
+               class="search-input" />
     </div>
-
 
     @if (autores == null)
     {
-        <div class="loading">Carregando autores...</div>
+        <div class="loading-container">
+            <p>Consultando os arquivos de Ohara...</p>
+        </div>
     }
     else
     {
-        <div class="grid">
+        <div class="map-grid">
             @foreach (var autor in AutoresFiltrados)
             {
-                <div class="card">
-                    <div class="avatar">@autor.Nome.Substring(0, 1).ToUpper()</div>
-                    <div class="info">
-                        <h4>@autor.Nome</h4>
-                        <button @onclick="() => SelecionarAutor(autor.Id)">Ver detalhes</button>
+                <div class="wanted-card" @onclick="() => SelecionarAutor(autor.Id)">
+
+                    <div class="thumbtack tack-left"></div>
+                    <div class="thumbtack tack-right"></div>
+
+                    <h2 class="wanted-header-text">WANTED</h2>
+
+                    <div class="photo-frame">
+                        <div class="wanted-img">
+                            @autor.Nome.Substring(0, 1).ToUpper()
+                        </div>
                     </div>
+
+                    <div class="wanted-content">
+                        <h3>@autor.Nome</h3>
+                        <p class="wanted-status">DEAD OR ALIVE</p>
+
+                        <div class="wanted-bounty">
+                            <span class="currency">฿</span> 100.000.000-
+                        </div>
+                    </div>
+
                 </div>
             }
         </div>
     }
-</div>
+<button class="back-scroll" @onclick="Voltar">
+        ← Voltar ao Mapa
+    </button>
 
+</div>
 
 @code {
     private List<AutorResponse>? autores;
     private string filtro = string.Empty;
 
-
     private IEnumerable<AutorResponse> AutoresFiltrados =>
-    autores?.Where(a => string.IsNullOrWhiteSpace(filtro) || a.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase))
-    ?? Enumerable.Empty<AutorResponse>();
-
+        autores?.Where(a =>
+            string.IsNullOrWhiteSpace(filtro) ||
+            a.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase))
+        ?? Enumerable.Empty<AutorResponse>();
 
     protected override async Task OnInitializedAsync()
     {
         autores = await AutorService.ObterTodos();
     }
 
-
-    private void SelecionarAutor(Guid id) { }
+    private void SelecionarAutor(Guid id)
+    {
+        // depois a gente navega para detalhes do autor
+    }
+    private void Voltar()
+    {
+        Nav.NavigateTo("/");
+    }
 }
