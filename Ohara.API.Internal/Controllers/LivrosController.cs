@@ -5,8 +5,9 @@ using Ohara.API.Shared.Requests;
 
 namespace Ohara.API.Internal.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/v1/[controller]")]
+    [Produces("application/json")]
     public class LivrosController : ControllerBase
     {
         private readonly ILivroService _livroService;
