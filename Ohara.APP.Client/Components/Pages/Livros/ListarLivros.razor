@@ -1,10 +1,10 @@
 ﻿@page "/livros"
 @using Ohara.API.Shared.Responses
 @using Ohara.APP.Client.Services
-@* --- INJEÇÕES NO TOPO (Apenas aqui) --- *@
 @inject LivroService LivroService
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
+@inject NavigationManager Nav
 
 <style>
     /* Reaproveitando os tokens de cor */
@@ -241,6 +241,27 @@
         background: rgba(255,255,255,0.5);
         padding: 10px;
     }
+
+    .back-scroll {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        padding: 10px 18px;
+        font-family: 'IM Fell English SC', serif;
+        font-size: 1rem;
+        color: #2a1b12;
+        background: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.4), transparent 35%), linear-gradient(180deg, #e8d5b5, #d2b48c);
+        border: 2px solid #3d2b1f;
+        box-shadow: 4px 6px 10px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        z-index: 999;
+    }
+
+        .back-scroll:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 8px 14px rgba(0,0,0,0.5);
+        }
 </style>
 
 <div class="adventure-container">
@@ -249,7 +270,7 @@
 
         <div class="controls-row">
             <input @bind="filtro" @bind:event="oninput" placeholder="Buscar título..." class="search-ohara" />
-            <button class="btn-novo" @onclick="IrParaNovoLivro">Catalogar Novo +</button>
+            <button class="btn-novo" @onclick="CadastrarLivro">Catalogar Novo +</button>
         </div>
     </div>
 
@@ -295,12 +316,13 @@
                 </div>
             }
         </div>
+        <button class="back-scroll" @onclick="Voltar">
+            ← Voltar ao Mapa
+        </button>
     }
 </div>
 
 @code {
-    // --- REMOVI OS [INJECT] DAQUI PORQUE JÁ ESTÃO NO TOPO ---
-
     private List<LivroResponse> livros = new();
     private bool carregando = true;
     private string erro = string.Empty;
@@ -327,7 +349,7 @@
         }
     }
 
-    private void IrParaNovoLivro()
+    private void CadastrarLivro()
     {
         Navigation.NavigateTo("/livros/novo");
     }
@@ -354,5 +376,9 @@
         {
             erro = "A Marinha impediu a destruição deste livro.";
         }
+    }
+    private void Voltar()
+    {
+        Nav.NavigateTo("/");
     }
 }
