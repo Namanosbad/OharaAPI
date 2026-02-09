@@ -1,53 +1,865 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel+Decorative:wght@400;700&family=Old+Standard+TT&display=swap');
+﻿/* ==============================
+   🎯 APP.CSS UNIFICADO — CORRIGIDO PARA MAUI BLAZOR
+   ============================== */
 
+/* --------- FONTS GLOBAIS --------- */
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel+Decorative:wght@400;700&family=Old+Standard+TT&family=IM+Fell+English+SC&family=Special+Elite&display=swap');
+
+/* --------- TOKENS DE COR (ÚNICOS) --------- */
 :root {
-    --map-bg: #e2c58a;
-    --ink: #3d2b1f;
+    --map-bg: #e5d1a5;
+    --p-base: #d2b48c;
+    --p-dark: #8b6d45;
+    --p-light: #e8d5b5;
+    --ink: #2a1b12;
     --gold: #d4af37;
     --wood: #2a1b12;
+    --danger: #8b0000;
+    --edit: #003366;
+    --mar: #0b3c5d;
+}
+
+/* ======================================================
+   🔧 AJUSTE CRÍTICO PARA MAUI BLAZOR (O QUE ESTAVA QUEBRANDO TUDO)
+   ====================================================== */
+#app, .main, body, html {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container raiz do Blazor */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: var(--map-bg);
+}
+
+/* --------- RESET & BASE --------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html, body {
     margin: 0;
-    padding: 0;
-    min-height: 100vh;
+    min-height: 100%;
+    height: auto;
+    overflow-y: auto;
     background-color: var(--map-bg);
-    overflow-x: hidden;
 }
 
+/* ======================================================
+   CONTAINER PADRÃO DE PÁGINA (USADO EM TODAS)
+   ====================================================== */
+.adventure-container {
+    min-height: 100%;
+    width: 100%;
+    background: var(--map-bg) url('../images/mapa-fundo.png') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5vh 20px;
+}
 
-
-
-
-
-
-.map-grid {
+/* ================== GRID GERAL ================== */
+.map-grid,
+.wanted-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     max-width: 1300px;
     width: 100%;
-    margin: 0 auto;
 }
 
+.map-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.wanted-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    padding-bottom: 50px;
+}
+
+/* ================== CARTAZ WANTED (COMPARTILHADO) ================== */
 .wanted-card {
+    text-decoration: none;
+    position: relative;
+    padding: 25px 20px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E"), radial-gradient(circle at 15% 15%, rgba(139, 69, 19, 0.2), transparent 35%), radial-gradient(circle, var(--p-light) 0%, var(--p-base) 60%, var(--p-dark) 100%);
+    border: 2px solid var(--ink);
+    outline: 5px solid var(--p-base);
+    box-shadow: 0 0 0 8px var(--ink), 15px 20px 30px rgba(0,0,0,0.5), inset 0 0 50px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
     cursor: pointer;
 }
+
+    .wanted-card:hover {
+        transform: translateY(-8px);
+    }
+
+.wanted-header-text {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 2.4rem;
+    color: var(--ink);
+    letter-spacing: 5px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    border-bottom: 3px solid var(--ink);
+    text-align: center;
+}
+
+.thumbtack {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 30% 30%, #666, #111);
+    border-radius: 50%;
+    top: 10px;
+    z-index: 5;
+}
+
+.tack-left {
+    left: 10px;
+}
+
+.tack-right {
+    right: 10px;
+}
+
+/* ================== CABEÇALHOS ================== */
+.page-title {
+    font-family: 'Pirata One', cursive;
+    font-size: 3.5rem;
+    color: var(--ink);
+    text-shadow: 2px 2px var(--p-base);
+}
+
+.map-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+    .map-header p {
+        font-family: 'IM Fell English SC', serif;
+        font-size: 2.6rem;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        text-shadow: 4px 4px 0px #000, 0px 0px 20px rgba(0,0,0,0.7);
+    }
+
+/* ================== FORMULÁRIO (PERGAMINHO) ================== */
+.scroll-form {
+    position: relative;
+    max-width: 650px;
+    width: 100%;
+    padding: 60px 50px;
+    background: var(--p-light);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E"), linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.05));
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2), 15px 25px 45px rgba(0,0,0,0.4), inset 0 0 40px rgba(139, 109, 69, 0.2);
+    border-radius: 2px 15px 2px 15px;
+}
+
+    .scroll-form::before, .scroll-form::after {
+        content: "";
+        position: absolute;
+        left: -15px;
+        right: -15px;
+        height: 25px;
+        background: var(--p-dark);
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+    }
+
+    .scroll-form::before {
+        top: -12px;
+    }
+
+    .scroll-form::after {
+        bottom: -12px;
+    }
+
+/* GRID DO FORMULÁRIO (CORRIGIDO) */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .input-group label {
+        font-family: 'Cinzel Decorative', serif;
+        font-weight: bold;
+        color: var(--ink);
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+    }
+
+.ohara-input, .ohara-select, .ohara-textarea {
+    font-family: 'Special Elite', cursive;
+    padding: 10px;
+    border: 1px solid rgba(61, 43, 31, 0.4);
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--ink);
+    outline: none;
+    font-size: 1rem;
+}
+
+    .ohara-input:focus, .ohara-textarea:focus {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid var(--ink);
+    }
+
+/* ===== TOGGLE DISPONÍVEL ===== */
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toggle-ship {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    background: #8b0000;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+}
+
+    .toggle-ship.available {
+        background: var(--mar);
+    }
+
+    .toggle-ship::before {
+        content: "🏴‍☠️";
+        position: absolute;
+        left: 4px;
+        top: 2px;
+        font-size: 1.1rem;
+        transition: .3s;
+    }
+
+    .toggle-ship.available::before {
+        left: 40px;
+    }
+
+/* BOTÕES */
+.btn-ohara {
+    font-family: 'Pirata One', cursive;
+    font-size: 1.8rem;
+    padding: 8px 30px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+}
+
+.btn-save {
+    background: var(--ink);
+    color: var(--p-light);
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--ink);
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    grid-column: span 2;
+}
+
+/* BOTÃO VOLTAR FLUTUANTE */
+.back-scroll {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 18px;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1rem;
+    color: #2a1b12;
+    background: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.4), transparent 35%), linear-gradient(180deg, #e8d5b5, #d2b48c);
+    border: 2px solid #3d2b1f;
+    box-shadow: 4px 6px 10px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 999;
+}
+
+    .back-scroll:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 8px 14px rgba(0,0,0,0.5);
+    }
+
+/* ================== RESPONSIVIDADE ================== */
 @media (max-width: 900px) {
+    .adventure-container {
+        padding: 20px 10px;
+    }
+
+    .map-grid,
+    .wanted-grid {
+        grid-template-columns: 1fr;
+    }
+
     .grid-form {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
 
-    .onepiece-card {
-        padding: 1.2rem;
+    .scroll-form {
+        padding: 40px 20px;
     }
 
-    .form-header h2 {
-        font-size: 1.4rem;
-    }
-
-    .form-header p {
-        font-size: 0.9rem;
+    .page-title {
+        font-size: 2.4rem;
     }
 }
+
+/* Evita corte quando janela não está maximizada */
+body {
+    min-width: 320px;
+}
+/* ======================================================
+   🔥 CORREÇÕES ESPECÍFICAS DO HOME (O QUE ESTAVA FALTANDO)
+   ====================================================== */
+
+/* LOGO PRINCIPAL */
+.main-logo {
+    max-width: 260px;
+    width: 100%;
+    margin-bottom: 10px;
+    filter: drop-shadow(4px 6px 8px rgba(0,0,0,0.5));
+}
+
+/* QUADRO DE FOTO DOS CARTAZES */
+.photo-frame {
+    width: 100%;
+    max-width: 220px;
+    padding: 10px;
+    border: 3px solid var(--ink);
+    background: rgba(255,255,255,0.35);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* IMAGEM DENTRO DO QUADRO */
+.wanted-img {
+    max-width: 100%;
+    height: auto;
+    filter: sepia(20%) contrast(1.05);
+}
+
+/* CONTEÚDO DO CARTAZ */
+.wanted-content {
+    text-align: center;
+    color: var(--ink);
+}
+
+    .wanted-content h3 {
+        font-family: 'Cinzel Decorative', serif;
+        font-size: 1.4rem;
+        margin-bottom: 6px;
+    }
+
+    .wanted-content p {
+        font-family: 'Old Standard TT', serif;
+        font-size: 1rem;
+    }
+
+/* FOOTER DO HOME */
+.adventure-container footer {
+    margin-top: 50px;
+    text-align: center;
+    font-family: 'IM Fell English SC', serif;
+    color: var(--ink);
+}
+
+    .adventure-container footer a {
+        color: var(--mar);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+/* EVITA QUE O GRID QUEBRE EM TELAS MÉDIAS */
+@media (max-width: 1100px) {
+    .map-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* MOBILE FINAL */
+@media (max-width: 700px) {
+    .map-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-logo {
+        max-width: 200px;
+    }
+}
+/* ======================================================
+   🔥 CORREÇÃO FINAL DO BACKGROUND DO MAPA
+   ====================================================== */
+
+/* Garante que TODAS as páginas que usam adventure-container tenham o mapa */
+.adventure-container {
+    background: var(--map-bg) url('../images/mapa-fundo.png') no-repeat center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+}
+
+/* Evita que body/html “tampem” o fundo */
+html, body {
+    background: var(--map-bg) url('../images/mapa-fundo.png') no-repeat center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+}
+/* ======================================================
+   🔥 CORREÇÃO DO LAYOUT (O QUE ESTAVA QUEBRANDO TUDO)
+   ====================================================== */
+
+.app-layout {
+    width: 100%;
+    min-height: 100vh;
+    background: transparent; /* IMPORTANTE */
+}
+
+.ohara-main {
+    width: 100%;
+    min-height: 100vh;
+    background: transparent; /* NÃO pode cobrir o mapa */
+    display: block;
+}
+
+/* Garante que nada por cima apague o mapa */
+body {
+    background: var(--map-bg) url('../images/mapa-fundo.png') no-repeat center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+}
+/* ===========================
+   GRID DE AUTORES / WANTED ESTILO ANTIGO
+   =========================== */
+
+.autor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1300px;
+    width: 100%;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+}
+
+@media (max-width: 1100px) {
+    .autor-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .autor-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ===========================
+   GRID GENÉRICO NOVO
+   =========================== */
+.generic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1300px;
+    width: 100%;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+}
+
+@media (max-width: 1100px) {
+    .generic-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .generic-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.generic-card {
+    text-decoration: none;
+    position: relative;
+    padding: 25px 20px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E"), radial-gradient(circle at 15% 15%, rgba(139, 69, 19, 0.2), transparent 35%), radial-gradient(circle, var(--p-light) 0%, var(--p-base) 60%, var(--p-dark) 100%);
+    border: 2px solid var(--ink);
+    outline: 5px solid var(--p-base);
+    box-shadow: 0 0 0 8px var(--ink), 15px 20px 30px rgba(0,0,0,0.5), inset 0 0 50px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+    .generic-card:hover {
+        transform: translateY(-10px);
+    }
+
+.generic-card-header {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 2.5rem;
+    color: var(--ink);
+    letter-spacing: 5px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    border-bottom: 3px solid var(--ink);
+    text-align: center;
+}
+
+.generic-card-frame {
+    border: 4px solid var(--ink);
+    padding: 8px;
+    width: 100%;
+    max-width: 220px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+}
+
+.generic-card-img {
+    font-size: 90px;
+    font-weight: bold;
+    font-family: 'Special Elite', cursive;
+    color: var(--ink);
+    filter: sepia(0.8) contrast(1.2);
+    text-transform: uppercase;
+}
+
+.generic-card-content {
+    text-align: center;
+    width: 100%;
+}
+
+    .generic-card-content h3 {
+        font-family: 'Special Elite', cursive;
+        font-size: 1.6rem;
+        color: var(--ink);
+        margin-top: 15px;
+        text-transform: uppercase;
+    }
+
+.generic-card-status {
+    font-family: 'Old Standard TT', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    font-weight: bold;
+}
+
+.generic-card-bounty {
+    font-family: 'Special Elite', cursive;
+    font-size: 1.4rem;
+    color: var(--ink);
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-top: 1px solid var(--ink);
+    margin-top: 6px;
+    padding-top: 4px;
+}
+
+    .generic-card-bounty .currency {
+        font-size: 1.1rem;
+    }
+
+.generic-thumbtack {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 30% 30%, #666, #111);
+    border-radius: 50%;
+    top: 10px;
+    z-index: 5;
+}
+
+.generic-tack-left {
+    left: 10px;
+}
+
+.generic-tack-right {
+    right: 10px;
+}
+
+/* ==============================
+   🎨 LISTAR LIVRO — ESTILOS
+   ============================== */
+
+/* --------- CABEÇALHO E CONTROLES --------- */
+.header-area {
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.page-title {
+    font-family: 'Pirata One', cursive;
+    font-size: 3.5rem;
+    color: var(--ink);
+    text-shadow: 2px 2px var(--p-base);
+    margin: 0;
+}
+
+.controls-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.search-ohara {
+    font-family: 'Special Elite', cursive;
+    padding: 12px 25px;
+    width: 350px;
+    border: 3px solid var(--ink);
+    background: var(--p-light);
+    color: var(--ink);
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    outline: none;
+    font-size: 1rem;
+}
+
+.btn-novo {
+    background: var(--ink);
+    color: var(--p-light);
+    border: 2px solid var(--p-base);
+    padding: 10px 20px;
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+}
+
+    .btn-novo:hover {
+        transform: scale(1.05);
+        background: #000;
+    }
+
+/* --------- GRID WANTED --------- */
+.wanted-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1300px;
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+/* --------- CARTAZ DE LIVRO --------- */
+.wanted-card {
+    position: relative;
+    padding: 20px 15px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E"), radial-gradient(circle at 15% 15%, rgba(139, 69, 19, 0.2), transparent 35%), radial-gradient(circle, var(--p-light) 0%, var(--p-base) 60%, var(--p-dark) 100%);
+    border: 2px solid var(--ink);
+    outline: 4px solid var(--p-base);
+    box-shadow: 0 0 0 6px var(--ink), 12px 15px 25px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+    .wanted-card:hover {
+        transform: translateY(-8px) rotate(-1deg);
+        z-index: 10;
+    }
+
+/* ----- ALFINETES ----- */
+.thumbtack {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 30% 30%, #666, #111);
+    border-radius: 50%;
+    top: 8px;
+    z-index: 5;
+}
+
+.tack-left {
+    left: 8px;
+}
+
+.tack-right {
+    right: 8px;
+}
+
+/* ----- HEADER DO CARTAZ ----- */
+.wanted-header-text {
+    font-family: 'Pirata One', cursive;
+    font-size: 2.2rem;
+    color: var(--ink);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    border-bottom: 3px solid var(--ink);
+    line-height: 1;
+}
+
+/* ----- CAPA DO LIVRO ----- */
+.book-cover-frame {
+    border: 3px solid var(--ink);
+    padding: 5px;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(42, 27, 18, 0.1);
+    margin-bottom: 10px;
+}
+
+.book-icon {
+    font-size: 5rem;
+    opacity: 0.8;
+}
+
+/* ----- INFORMAÇÕES DO LIVRO ----- */
+.book-info {
+    text-align: center;
+    width: 100%;
+}
+
+.book-title {
+    font-family: 'Special Elite', cursive;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    min-height: 2.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-genre {
+    font-family: 'Old Standard TT', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    background: var(--ink);
+    color: var(--p-light);
+    padding: 2px 8px;
+    display: inline-block;
+    margin-bottom: 10px;
+    border-radius: 2px;
+}
+
+.book-desc {
+    font-family: 'Old Standard TT', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin-bottom: 10px;
+    height: 40px;
+    overflow: hidden;
+}
+
+/* ----- AÇÕES ----- */
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px dashed var(--ink);
+    padding-top: 10px;
+}
+
+.btn-action {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.2s;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+}
+
+.btn-edit {
+    color: var(--edit);
+}
+
+.btn-delete {
+    color: var(--danger);
+}
+
+/* ----- MENSAGENS ----- */
+.loading-msg {
+    font-family: 'Special Elite', cursive;
+    font-size: 1.5rem;
+    color: var(--ink);
+}
+
+.error-msg {
+    color: var(--danger);
+    font-family: 'Special Elite', cursive;
+    background: rgba(255,255,255,0.5);
+    padding: 10px;
+}
+
+/* ----- BOTÃO VOLTAR ----- */
+.back-scroll {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 18px;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1rem;
+    color: #2a1b12;
+    background: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.4), transparent 35%), linear-gradient(180deg, #e8d5b5, #d2b48c);
+    border: 2px solid #3d2b1f;
+    box-shadow: 4px 6px 10px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 999;
+}
+
+    .back-scroll:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 8px 14px rgba(0,0,0,0.5);
+    }
