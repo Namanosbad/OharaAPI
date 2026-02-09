@@ -12,6 +12,7 @@
         --p-dark: #8b6d45;
         --p-light: #f4e4bc;
         --ink: #3d2b1f;
+        --mar: #0b3c5d;
     }
 
     .adventure-container {
@@ -29,36 +30,35 @@
     /* PERGAMINHO ORIGINAL COM SOMBRAS REAIS */
     .scroll-form {
         position: relative;
-        max-width: 550px;
+        max-width: 650px;
         width: 100%;
         padding: 60px 50px;
         background: var(--p-light);
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E"), linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.05));
         border: 2px solid var(--ink);
-        /* SOMBRAS REAIS APRIMORADAS */
         box-shadow: 2px 2px 5px rgba(0,0,0,0.2), 15px 25px 45px rgba(0,0,0,0.4), inset 0 0 40px rgba(139, 109, 69, 0.2);
         border-radius: 2px 15px 2px 15px;
     }
 
-        .scroll-form::before, .scroll-form::after {
-            content: "";
-            position: absolute;
-            left: -15px;
-            right: -15px;
-            height: 25px;
-            background: var(--p-dark);
-            border: 2px solid var(--ink);
-            border-radius: 12px;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.4); /* Sombra nas alças */
-        }
+    .scroll-form::before, .scroll-form::after {
+        content: "";
+        position: absolute;
+        left: -15px;
+        right: -15px;
+        height: 25px;
+        background: var(--p-dark);
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+    }
 
-        .scroll-form::before {
-            top: -12px;
-        }
+    .scroll-form::before {
+        top: -12px;
+    }
 
-        .scroll-form::after {
-            bottom: -12px;
-        }
+    .scroll-form::after {
+        bottom: -12px;
+    }
 
     .form-title {
         font-family: 'Pirata One', cursive;
@@ -70,40 +70,90 @@
         padding-bottom: 10px;
     }
 
+    .grid-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
     .input-group {
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         display: flex;
         flex-direction: column;
     }
 
-        .input-group label {
-            font-family: 'Cinzel Decorative', serif;
-            font-weight: bold;
-            color: var(--ink);
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
+    .input-group label {
+        font-family: 'Cinzel Decorative', serif;
+        font-weight: bold;
+        color: var(--ink);
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+    }
 
     .ohara-input, .ohara-select, .ohara-textarea {
         font-family: 'Special Elite', cursive;
-        padding: 12px;
+        padding: 10px;
         border: 1px solid rgba(61, 43, 31, 0.4);
         background: rgba(255, 255, 255, 0.3);
         color: var(--ink);
         outline: none;
-        font-size: 1.1rem;
-        transition: 0.3s;
+        font-size: 1rem;
     }
 
-        .ohara-input:focus, .ohara-textarea:focus {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid var(--ink);
-        }
+    .ohara-input:focus, .ohara-textarea:focus {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid var(--ink);
+    }
+
+    /* ===== TOGGLE DISPONÍVEL (ESTILO ONE PIECE) ===== */
+
+    .status-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .status-label {
+        font-family: 'Cinzel Decorative', serif;
+        font-weight: bold;
+        color: var(--ink);
+        font-size: 0.9rem;
+    }
+
+    .toggle-ship {
+        position: relative;
+        width: 70px;
+        height: 30px;
+        border: 2px solid var(--ink);
+        border-radius: 20px;
+        background: #8b0000; /* Vermelho = indisponível */
+        cursor: pointer;
+        transition: .3s;
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    }
+
+    .toggle-ship.available {
+        background: var(--mar); /* Azul mar = disponível */
+    }
+
+    .toggle-ship::before {
+        content: "🏴‍☠️";
+        position: absolute;
+        left: 4px;
+        top: 2px;
+        font-size: 1.1rem;
+        transition: .3s;
+    }
+
+    .toggle-ship.available::before {
+        left: 40px;
+    }
 
     .button-row {
         display: flex;
         justify-content: space-between;
         margin-top: 30px;
+        grid-column: span 2;
     }
 
     .btn-ohara {
@@ -121,19 +171,19 @@
         color: var(--p-light);
     }
 
-        .btn-save:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
-        }
+    .btn-save:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
+    }
 
     .btn-cancel {
         background: transparent;
         color: var(--ink);
     }
 
-        .btn-cancel:hover {
-            background: rgba(0,0,0,0.05);
-        }
+    .btn-cancel:hover {
+        background: rgba(0,0,0,0.05);
+    }
 </style>
 
 <div class="adventure-container">
@@ -143,48 +193,110 @@
         <EditForm Model="@request" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
 
-            <div class="input-group">
-                <label>Título do Volume</label>
-                <InputText @bind-Value="request.Titulo" class="ohara-input" placeholder="Ex: O Século Perdido" />
-                <ValidationMessage For="@(() => request.Titulo)" />
-            </div>
+            <div class="grid-form">
 
-            <div class="input-group">
-                <label>Gênero Literário</label>
-                <InputSelect @bind-Value="request.Genero" class="ohara-select">
-                    @foreach (var genero in Enum.GetValues<EGenero>())
-                    {
-                        <option value="@genero">@genero.ToString()</option>
-                    }
-                </InputSelect>
-            </div>
+                <div class="input-group">
+                    <label>📘 Título do Volume</label>
+                    <InputText @bind-Value="request.Titulo" class="ohara-input" />
+                    <ValidationMessage For="@(() => request.Titulo)" />
+                </div>
 
-            <div class="input-group">
-                <label>Relato Escrito</label>
-                <InputTextArea @bind-Value="request.Descricao" class="ohara-textarea" rows="4" placeholder="Relatos das correntes marítimas..." />
-            </div>
+                <div class="input-group">
+                    <label>✍️ Nome do Autor</label>
+                    <InputText @bind-Value="request.NomeAutor" class="ohara-input" />
+                </div>
 
-            <div class="button-row">
-                @* Recuperado: Botão com Âncora e Texto Abortar *@
-                <button type="button" class="btn-ohara btn-cancel" @onclick="Voltar">⚓ Abortar</button>
+                <div class="input-group">
+                    <label>📚 Gênero</label>
+                    <InputSelect @bind-Value="request.Genero" class="ohara-select">
+                        @foreach (var genero in Enum.GetValues<EGenero>())
+                        {
+                            <option value="@genero">@genero</option>
+                        }
+                    </InputSelect>
+                </div>
 
-                <button type="submit" class="btn-ohara btn-save" disabled="@enviando">
-                    @(enviando ? "Registrando..." : "Catalogar Item")
-                </button>
+                <div class="input-group">
+                    <label>📅 Data de Publicação</label>
+                    <InputDate @bind-Value="request.DataPublicacao"
+                               class="ohara-input"
+                               format="yyyy-MM-dd" />
+                </div>
+
+                <div class="input-group">
+                    <label>🧾 Assunto</label>
+                    <InputText @bind-Value="request.Assunto" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>🔢 Nº do Exemplar</label>
+                    <InputNumber @bind-Value="request.ExemplarNumero" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>💰 Valor Pago</label>
+                    <InputNumber @bind-Value="request.ValorPago" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>🌍 Idioma</label>
+                    <InputText @bind-Value="request.Idioma" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>🔖 ISBN</label>
+                    <InputText @bind-Value="request.ISBN" class="ohara-input" />
+                </div>
+
+                <div class="input-group" style="grid-column: span 2;">
+                    <label>📜 Descrição</label>
+                    <InputTextArea @bind-Value="request.Descricao" class="ohara-textarea" rows="4" />
+                </div>
+
+                <div class="input-group">
+                    <label>📦 Disponibilidade</label>
+
+                    <div class="status-row">
+                        <span class="status-label">
+                            @(request.Disponivel ? "Navegando pelos mares" : "Atracado em Ohara")
+                        </span>
+
+                        <div class="toggle-ship @(request.Disponivel ? "available" : "")"
+                             @onclick="() => request.Disponivel = !request.Disponivel">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button type="button" class="btn-ohara btn-cancel" @onclick="Voltar">
+                        ⚓ Abortar
+                    </button>
+
+                    <button type="submit" class="btn-ohara btn-save" disabled="@enviando">
+                        @(enviando ? "Registrando..." : "Catalogar Item")
+                    </button>
+                </div>
+
             </div>
         </EditForm>
     </div>
 </div>
 
 @code {
-    private LivroRequest request = new();
+    private LivroRequest request = new()
+    {
+        DataPublicacao = DateTime.Today,
+        Disponivel = true
+    };
+
     private bool enviando = false;
 
     private async Task HandleSubmit()
     {
         enviando = true;
         var res = await LivroService.Adicionar(request);
-        if (res != null) Navigation.NavigateTo("/livros");
+        if (res != null)
+            Navigation.NavigateTo("/livros");
         enviando = false;
     }
 

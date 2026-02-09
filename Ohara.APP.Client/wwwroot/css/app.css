@@ -33,3 +33,21 @@ html, body {
 .wanted-card {
     cursor: pointer;
 }
+@media (max-width: 900px) {
+    .grid-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .onepiece-card {
+        padding: 1.2rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .form-header p {
+        font-size: 0.9rem;
+    }
+}
