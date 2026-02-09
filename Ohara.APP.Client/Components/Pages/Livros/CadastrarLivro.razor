@@ -1,5 +1,124 @@
-﻿<h3>CadastrarLivro</h3>
+﻿@page "/livros/novo"
+@using Ohara.API.Shared.Requests
+@using Ohara.API.Shared.Enums
+@using Ohara.APP.Client.Services
+@inject LivroService LivroService
+@inject NavigationManager Navigation
+
+
+<div class="adventure-container">
+    <div class="scroll-form">
+        <h2 class="form-title">Registro de Ohara</h2>
+
+        <EditForm Model="@request" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="grid-form">
+
+                <div class="input-group">
+                    <label>📘 Título do Volume</label>
+                    <InputText @bind-Value="request.Titulo" class="ohara-input" />
+                    <ValidationMessage For="@(() => request.Titulo)" />
+                </div>
+
+                <div class="input-group">
+                    <label>✍️ Nome do Autor</label>
+                    <InputText @bind-Value="request.NomeAutor" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>📚 Gênero</label>
+                    <InputSelect @bind-Value="request.Genero" class="ohara-select">
+                        @foreach (var genero in Enum.GetValues<EGenero>())
+                        {
+                            <option value="@genero">@genero</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="input-group">
+                    <label>📅 Data de Publicação</label>
+                    <InputDate @bind-Value="request.DataPublicacao"
+                               class="ohara-input"
+                               format="yyyy-MM-dd" />
+                </div>
+
+                <div class="input-group">
+                    <label>🧾 Assunto</label>
+                    <InputText @bind-Value="request.Assunto" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>🔢 Nº do Exemplar</label>
+                    <InputNumber @bind-Value="request.ExemplarNumero" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>💰 Valor Pago</label>
+                    <InputNumber @bind-Value="request.ValorPago" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>🌍 Idioma</label>
+                    <InputText @bind-Value="request.Idioma" class="ohara-input" />
+                </div>
+
+                <div class="input-group">
+                    <label>🔖 ISBN</label>
+                    <InputText @bind-Value="request.ISBN" class="ohara-input" />
+                </div>
+
+                <div class="input-group" style="grid-column: span 2;">
+                    <label>📜 Descrição</label>
+                    <InputTextArea @bind-Value="request.Descricao" class="ohara-textarea" rows="4" />
+                </div>
+
+                <div class="input-group">
+                    <label>📦 Disponibilidade</label>
+
+                    <div class="status-row">
+                        <span class="status-label">
+                            @(request.Disponivel ? "Navegando pelos mares" : "Atracado em Ohara")
+                        </span>
+
+                        <div class="toggle-ship @(request.Disponivel ? "available" : "")"
+                             @onclick="() => request.Disponivel = !request.Disponivel">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button type="button" class="btn-ohara btn-cancel" @onclick="Voltar">
+                        ⚓ Abortar
+                    </button>
+
+                    <button type="submit" class="btn-ohara btn-save" disabled="@enviando">
+                        @(enviando ? "Registrando..." : "Catalogar Item")
+                    </button>
+                </div>
+
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
+    private LivroRequest request = new()
+    {
+        DataPublicacao = DateTime.Today,
+        Disponivel = true
+    };
 
+    private bool enviando = false;
+
+    private async Task HandleSubmit()
+    {
+        enviando = true;
+        var res = await LivroService.Adicionar(request);
+        if (res != null)
+            Navigation.NavigateTo("/livros");
+        enviando = false;
+    }
+
+    private void Voltar() => Navigation.NavigateTo("/livros");
 }
