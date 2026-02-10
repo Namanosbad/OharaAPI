@@ -1,0 +1,55 @@
+﻿@page "/autores/{Id:guid}"
+@using Ohara.API.Shared.Responses
+@inject AutorService AutorService
+@inject NavigationManager Nav
+
+<div class="adventure-container">
+    @if (autor == null)
+    {
+        <div class="loading-msg">Consultando os arquivos de Ohara...</div>
+    }
+    else
+    {
+        <div class="autor-detalhe">
+            <h2 class="page-title">Dossiê de @autor.Nome</h2>
+
+            <div class="autor-card">
+                <div class="autor-inicial">@autor.Nome.Substring(0, 1)</div>
+                <p><strong>ID:</strong> @autor.Id</p>
+            </div>
+
+            <h3>Livros Registrados</h3>
+
+            @if (autor.Livros == null || !autor.Livros.Any())
+            {
+                <p>Nenhum livro registrado em Ohara.</p>
+            }
+            else
+            {
+                <ul class="lista-livros">
+                    @foreach (var livro in autor.Livros)
+                    {
+                        <li>@livro.Titulo</li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+
+    <button class="back-scroll" @onclick="Voltar">
+        ← Voltar aos Autores
+    </button>
+</div>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+
+    private AutorResponse? autor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        autor = await AutorService.ObterPorId(Id);
+    }
+
+    private void Voltar() => Nav.NavigateTo("/autores");
+}

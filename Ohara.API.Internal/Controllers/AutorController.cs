@@ -22,7 +22,7 @@ namespace Ohara.API.Internal.Controllers
             return Ok(autores);
         }
 
-        [HttpGet("livros")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Livros(Guid id)
         {
             var autor = await _autorService.LivroPorAutorAsync(id);

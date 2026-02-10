@@ -18,7 +18,7 @@ public class LivroService
     public async Task<List<LivroResponse>> ObterTodos()
     {
         return await _http.GetFromJsonAsync<List<LivroResponse>>(
-            "api/livros"
+            "api/v1/livros"
         ) ?? new();
     }
 
@@ -26,7 +26,7 @@ public class LivroService
     public async Task<LivroResponse?> ObterPorId(Guid id)
     {
         return await _http.GetFromJsonAsync<LivroResponse>(
-            $"api/livros/{id}"
+            $"api/v1/livros/{id}"
         );
     }
 

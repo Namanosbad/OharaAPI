@@ -1,24 +1,24 @@
 ﻿@page "/autores"
+@using Ohara.API.Shared.Responses
 @inject AutorService AutorService
 @inject NavigationManager Nav
 
 <div class="adventure-container">
 
-    <div class="map-header">
-        <h1 class="page-title">REGISTROS DE LENDAS</h1>
+    <div class="header-area">
+        <h2 class="page-title">REGISTROS DE LENDAS</h2>
 
-        <input @bind="filtro"
-               @bind:event="oninput"
-               placeholder="Buscar autor pelo nome..."
-               class="ohara-input"
-               style="max-width: 420px; text-align:center;" />
+        <div class="controls-row">
+            <input @bind="filtro"
+                   @bind:event="oninput"
+                   placeholder="Buscar autor pelo nome..."
+                   class="search-ohara" />
+        </div>
     </div>
 
     @if (autores == null)
     {
-        <div class="loading-container">
-            <p>Consultando os arquivos de Ohara...</p>
-        </div>
+        <div class="loading-msg">Consultando os arquivos de Ohara...</div>
     }
     else
     {
@@ -26,13 +26,15 @@
             @foreach (var autor in AutoresFiltrados)
             {
                 <div class="generic-card" @onclick="() => SelecionarAutor(autor.Id)">
-                    <div class="generic-thumbtack autor-tack-left"></div>
-                    <div class="generic-thumbtack autor-tack-right"></div>
+                    <div class="generic-thumbtack generic-tack-left"></div>
+                    <div class="generic-thumbtack generic-tack-right"></div>
 
                     <h2 class="generic-card-header">WANTED</h2>
 
-                    <div class="generic-card-framee">
-                        <div class="generic-card-img">@autor.Nome.Substring(0, 1)</div>
+                    <div class="generic-card-frame">
+                        <div class="generic-card-img">
+                            @autor.Nome.Substring(0, 1)
+                        </div>
                     </div>
 
                     <div class="generic-card-content">
@@ -50,7 +52,6 @@
     <button class="back-scroll" @onclick="Voltar">
         ← Voltar ao Mapa
     </button>
-
 </div>
 
 @code {
@@ -70,11 +71,8 @@
 
     private void SelecionarAutor(Guid id)
     {
-        // depois
+        Nav.NavigateTo($"/autores/{id}");
     }
 
-    private void Voltar()
-    {
-        Nav.NavigateTo("/");
-    }
+    private void Voltar() => Nav.NavigateTo("/");
 }

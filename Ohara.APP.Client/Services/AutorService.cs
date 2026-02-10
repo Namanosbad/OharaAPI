@@ -15,7 +15,15 @@ public class AutorService
     public async Task<List<AutorResponse>> ObterTodos()
     {
         return await _http.GetFromJsonAsync<List<AutorResponse>>(
-        "api/v1/autor/listar"
-    ) ?? new();
+            "api/v1/autor/listar"
+        ) ?? new();
+    }
+
+    // 🔥 MÉTODO CORRETO (é aqui que estava o 404)
+    public async Task<AutorResponse?> ObterPorId(Guid id)
+    {
+        return await _http.GetFromJsonAsync<AutorResponse>(
+            $"api/v1/autor/{id}"
+        );
     }
 }
