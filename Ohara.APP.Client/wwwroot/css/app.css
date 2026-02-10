@@ -1,10 +1,8 @@
 ﻿/* ==============================
    🎯 APP.CSS UNIFICADO — CORRIGIDO PARA MAUI BLAZOR
    ============================== */
-
 /* --------- FONTS GLOBAIS --------- */
 @import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel+Decorative:wght@400;700&family=Old+Standard+TT&family=IM+Fell+English+SC&family=Special+Elite&display=swap');
-
 /* --------- TOKENS DE COR (ÚNICOS) --------- */
 :root {
     --map-bg: #e5d1a5;
@@ -863,3 +861,100 @@ body {
         transform: translateY(-2px);
         box-shadow: 6px 8px 14px rgba(0,0,0,0.5);
     }
+
+.currency-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-label {
+    position: absolute;
+    left: 10px;
+    font-size: 1rem;
+    color: var(--ink);
+    pointer-events: none;
+}
+
+.currency-input .ohara-input {
+    padding-left: 30px; /* espaço para o emoji */
+    -moz-appearance: textfield; /* remove setinhas no Firefox */
+}
+
+    .currency-input .ohara-input::-webkit-outer-spin-button,
+    .currency-input .ohara-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; /* remove setinhas no Chrome/Safari */
+    }
+/* ===== CENTRALIZA ITENS QUANDO FOREM POUCOS ===== */
+.map-grid,
+.wanted-grid,
+.autor-grid,
+.generic-grid {
+    justify-content: center;
+}
+
+    /* Faz os cards não esticarem quando houver poucos itens */
+    .map-grid > *,
+    .wanted-grid > *,
+    .autor-grid > *,
+    .generic-grid > * {
+        max-width: 320px; /* mantém tamanho bonito e evita "esticar" */
+    }
+/* ===== CENTRALIZAÇÃO ESPECÍFICA DA HOME (CORREÇÃO REAL) ===== */
+.map-grid {
+    justify-items: center; /* 🔥 ISSO É O QUE FALTAVA */
+    justify-content: center;
+}
+
+    /* Evita que os cards ocupem toda a coluna e "empurrem" pra esquerda */
+    .map-grid .wanted-card {
+        width: 100%;
+        max-width: 320px; /* mantém o tamanho bonito e padronizado */
+    }
+    /* ===== CORREÇÃO REAL DA HOME EM FULLSCREEN ===== */
+
+    /* Quando houver 2 itens, força o grid a virar 2 colunas CENTRALIZADAS */
+    .map-grid:has(:nth-child(2):last-child) {
+        grid-template-columns: repeat(2, minmax(240px, 320px));
+        justify-content: center;
+        justify-items: center;
+    }
+
+    /* Quando houver 1 item, força centralização total */
+    .map-grid:has(:only-child) {
+        grid-template-columns: minmax(240px, 320px);
+        justify-content: center;
+        justify-items: center;
+    }
+/* ===== MAIS ESPAÇO ENTRE OS 2 CARDS APENAS EM FULLSCREEN ===== */
+@media (min-width: 1101px) {
+    .map-grid:has(:nth-child(2):last-child) {
+        grid-template-columns: repeat(2, 320px); /* largura fixa bonita */
+        gap: 120px; /* 🔥 AUMENTE/DIMINUA AQUI SE QUISER */
+        justify-content: center;
+        justify-items: center;
+    }
+}
+/* ===== AJUSTES SUTIS DA HOME (SEU PEDIDO EXATO) ===== */
+
+/* 1) LOGO — só um pouco maior */
+.main-logo {
+    max-width: 330px; /* era ~260px → aumento bem leve */
+}
+
+/* 2) TEXTO PRINCIPAL — só um pouco menor */
+.map-header p {
+    font-size: 2.4rem; /* era 2.6rem → redução mínima */
+    letter-spacing: 4px; /* era 5px → suaviza um pouco */
+}
+
+/* 3) DESCE UM POUCO O GRID EM RELAÇÃO AO TEXTO */
+.map-header {
+    margin-bottom: 4.5vh; /* era ~3vh → desce o grid levemente */
+}
+
+/* 4) FAZ O FOOTER DESCER MAIS (SEM CRIAR SCROLL) */
+.adventure-container footer {
+    margin-top: 70px; /* era 50px → desce mais o footer */
+}
