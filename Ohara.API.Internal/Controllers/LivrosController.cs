@@ -20,7 +20,7 @@ namespace Ohara.API.Internal.Controllers
         public async Task<IActionResult> BuscarLivro(Guid id)
         {
             var livros = await _livroService.BuscarLivroAsync(id);
-           
+
             return Ok(livros);
         }
 
