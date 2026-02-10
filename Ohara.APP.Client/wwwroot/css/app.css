@@ -958,3 +958,229 @@ body {
 .adventure-container footer {
     margin-top: 70px; /* era 50px → desce mais o footer */
 }
+/* ===========================
+   🔥 DETALHE DO AUTOR - ESTILO PERGAMINHO
+   =========================== */
+
+.autor-detalhe {
+    position: relative;
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 60px 50px;
+    background: var(--p-light);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E"), linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.05));
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2), 15px 25px 45px rgba(0,0,0,0.4), inset 0 0 40px rgba(139, 109, 69, 0.2);
+    border-radius: 2px 15px 2px 15px;
+}
+
+    /* “Barras” do pergaminho (igual ao cadastro de livro) */
+    .autor-detalhe::before,
+    .autor-detalhe::after {
+        content: "";
+        position: absolute;
+        left: -15px;
+        right: -15px;
+        height: 25px;
+        background: var(--p-dark);
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+    }
+
+    .autor-detalhe::before {
+        top: -12px;
+    }
+
+    .autor-detalhe::after {
+        bottom: -12px;
+    }
+
+/* CARTÃO DO AUTOR (INICIAL + ID) */
+.autor-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0 30px;
+    padding: 15px;
+    border: 1px dashed var(--ink);
+    background: rgba(255,255,255,0.3);
+}
+
+/* BOLINHA DA INICIAL */
+.autor-inicial {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Special Elite', cursive;
+    font-size: 2rem;
+    background: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.4), transparent 35%), linear-gradient(180deg, #e8d5b5, #d2b48c);
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+}
+
+/* TÍTULOS INTERNOS */
+.autor-detalhe h3 {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--ink);
+    margin: 25px 0 10px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 5px;
+}
+
+/* LISTA DE LIVROS */
+.lista-livros {
+    list-style: none;
+    padding: 0;
+}
+
+    .lista-livros li {
+        font-family: 'Old Standard TT', serif;
+        padding: 8px 10px;
+        border-bottom: 1px dashed rgba(42, 27, 18, 0.4);
+    }
+
+/* MENSAGENS DE CARREGAMENTO */
+.autor-detalhe p {
+    font-family: 'Old Standard TT', serif;
+}
+
+/* ===========================
+   🔥 DETALHE DO AUTOR - ESTILO PERGAMINHO
+   =========================== */
+
+.autor-detalhe {
+    position: relative;
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 60px 50px;
+    background: var(--p-light);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E"), linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.05));
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2), 15px 25px 45px rgba(0,0,0,0.4), inset 0 0 40px rgba(139, 109, 69, 0.2);
+    border-radius: 2px 15px 2px 15px;
+}
+
+    /* “Barras” do pergaminho (igual ao cadastro de livro) */
+    .autor-detalhe::before,
+    .autor-detalhe::after {
+        content: "";
+        position: absolute;
+        left: -15px;
+        right: -15px;
+        height: 25px;
+        background: var(--p-dark);
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+    }
+
+    .autor-detalhe::before {
+        top: -12px;
+    }
+
+    .autor-detalhe::after {
+        bottom: -12px;
+    }
+
+/* CARTÃO DO AUTOR (INICIAL + ID) */
+.autor-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0 30px;
+    padding: 15px;
+    border: 1px dashed var(--ink);
+    background: rgba(255,255,255,0.3);
+}
+
+/* BOLINHA DA INICIAL */
+.autor-inicial {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Special Elite', cursive;
+    font-size: 2rem;
+    background: radial-gradient(circle at 15% 15%, rgba(255,255,255,0.4), transparent 35%), linear-gradient(180deg, #e8d5b5, #d2b48c);
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+}
+
+/* TÍTULOS INTERNOS */
+.autor-detalhe h3 {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--ink);
+    margin: 25px 0 10px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 5px;
+}
+
+/* LISTA DE LIVROS */
+.lista-livros {
+    list-style: none;
+    padding: 0;
+}
+
+    .lista-livros li {
+        font-family: 'Old Standard TT', serif;
+        padding: 8px 10px;
+        border-bottom: 1px dashed rgba(42, 27, 18, 0.4);
+    }
+
+/* MENSAGENS DE CARREGAMENTO */
+.autor-detalhe p {
+    font-family: 'Old Standard TT', serif;
+}
+/* ===========================
+   🔥 ANIMAÇÃO DO PERGAMINHO ABRINDO
+   =========================== */
+
+/* Estado inicial (fechado) */
+.autor-detalhe {
+    transform-origin: top;
+    animation: pergaminhoAbrir 0.9s ease-out forwards;
+}
+
+    /* A barra superior “puxa” primeiro (efeito de rolo) */
+    .autor-detalhe::before {
+        animation: barraTopoAbrir 0.6s ease-out forwards;
+    }
+
+/* Keyframes principais */
+@keyframes pergaminhoAbrir {
+    0% {
+        transform: scaleY(0.05);
+        opacity: 0.3;
+    }
+
+    60% {
+        transform: scaleY(1.05);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+/* Pequeno detalhe para a “madeira” de cima parecer que está desenrolando */
+@keyframes barraTopoAbrir {
+    0% {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
