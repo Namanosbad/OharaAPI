@@ -23,6 +23,13 @@ namespace Ohara.API.Application.Mappings
 
             CreateMap<AutorRequest, Autor>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()));
+            // No construtor do MappingProfile
+            CreateMap<Autor, AutorResponse>()
+                .ForMember(dest => dest.Livros, opt => opt.MapFrom(src => src.Livros));
+
+            // Garanta que o mapeamento de Livro para LivroResponse também exista
+            CreateMap<Livro, LivroResponse>()
+                .ForMember(dest => dest.NomeAutor, opt => opt.MapFrom(src => src.Autor != null ? src.Autor.Nome : null));
         }
     }
 }
