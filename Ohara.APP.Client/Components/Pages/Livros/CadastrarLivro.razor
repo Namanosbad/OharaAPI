@@ -11,6 +11,7 @@
 
         <EditForm Model="@request" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
+            <ValidationSummary />
 
             <div class="grid-form">
 
@@ -97,24 +98,29 @@
                     </button>
                 </div>
 
+                @if (!string.IsNullOrEmpty(mensagemErro))
+                {
+                    <div class="error-msg">@mensagemErro</div>
+                }
+
             </div>
         </EditForm>
     </div>
 </div>
 
 @code {
-    private LivroRequest request = new()
+    private readonly LivroRequest request = new()
     {
         DataPublicacao = DateTime.Today,
         Disponivel = true
     };
 
     private bool enviando = false;
+    private string mensagemErro = string.Empty;
 
-    // Campo para exibir e formatar Bellies
     private string ValorPagoTexto
     {
-        get => request.ValorPago.ToString("N2"); // 2 casas decimais
+        get => request.ValorPago.ToString("N2");
         set
         {
             var clean = value.Replace("💰", "").Replace(".", "").Replace(",", ".").Trim();
@@ -127,11 +133,37 @@
 
     private async Task HandleSubmit()
     {
-        enviando = true;
-        var res = await LivroService.Adicionar(request);
-        if (res != null)
-            Navigation.NavigateTo("/livros");
-        enviando = false;
+        mensagemErro = string.Empty;
+
+        // Validação mínima
+        if (string.IsNullOrWhiteSpace(request.Titulo))
+        {
+            mensagemErro = "O título do volume é obrigatório!";
+            return;
+        }
+
+        try
+        {
+            enviando = true;
+            var res = await LivroService.Adicionar(request);
+
+            if (res != null)
+            {
+                Navigation.NavigateTo("/livros");
+            }
+            else
+            {
+                mensagemErro = "Falha ao registrar o livro. Tente novamente.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro inesperado: {ex.Message}";
+        }
+        finally
+        {
+            enviando = false;
+        }
     }
 
     private void Voltar() => Navigation.NavigateTo("/livros");

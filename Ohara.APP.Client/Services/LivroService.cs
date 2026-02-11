@@ -14,7 +14,7 @@ public class LivroService
         _http = factory.CreateClient("API");
     }
 
-    // 👉 LISTAR TODOS (corresponde a BuscarTodosLivrosAsync)
+    // 👉 LISTAR TODOS
     public async Task<List<LivroResponse>> ObterTodos()
     {
         return await _http.GetFromJsonAsync<List<LivroResponse>>(
@@ -22,7 +22,7 @@ public class LivroService
         ) ?? new();
     }
 
-    // 👉 BUSCAR POR ID (corresponde a BuscarLivroAsync)
+    // 👉 BUSCAR POR ID
     public async Task<LivroResponse?> ObterPorId(Guid id)
     {
         return await _http.GetFromJsonAsync<LivroResponse>(
@@ -30,48 +30,63 @@ public class LivroService
         );
     }
 
-    // 👉 BUSCAR POR TÍTULO (corresponde a BuscarPorTituloAsync)
+    // 👉 BUSCAR POR TÍTULO
     public async Task<List<LivroResponse>> BuscarPorTitulo(string titulo)
     {
         return await _http.GetFromJsonAsync<List<LivroResponse>>(
-            $"api/livros/titulo/{titulo}"
+            $"api/v1/livros/titulo/{titulo}"
         ) ?? new();
     }
 
-    // 👉 BUSCAR POR GÊNERO (corresponde a LivroPorGeneroAsync)
+    // 👉 BUSCAR POR GÊNERO
     public async Task<List<LivroResponse>> BuscarPorGenero(EGenero genero)
     {
         return await _http.GetFromJsonAsync<List<LivroResponse>>(
-            $"api/livros/genero/{(int)genero}"
+            $"api/v1/livros/genero/{(int)genero}"
         ) ?? new();
     }
 
-    // 👉 ADICIONAR LIVRO (corresponde a AdicionarLivroAsync)
+    // 👉 ADICIONAR LIVRO
     public async Task<LivroResponse?> Adicionar(LivroRequest request)
     {
-        var response = await _http.PostAsJsonAsync("api/livros", request);
+        var response = await _http.PostAsJsonAsync("api/v1/livros", request);
 
         if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Erro ao adicionar livro: {response.StatusCode} - {error}");
             return null;
+        }
 
         return await response.Content.ReadFromJsonAsync<LivroResponse>();
     }
 
-    // 👉 ATUALIZAR LIVRO (corresponde a AtualizarLivroAsync)
+    // 👉 ATUALIZAR LIVRO
     public async Task<LivroResponse?> Atualizar(Guid id, LivroRequest request)
     {
-        var response = await _http.PutAsJsonAsync($"api/livros/{id}", request);
+        var response = await _http.PutAsJsonAsync($"api/v1/livros/{id}", request);
 
         if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Erro ao atualizar livro: {response.StatusCode} - {error}");
             return null;
+        }
 
         return await response.Content.ReadFromJsonAsync<LivroResponse>();
     }
 
-    // 👉 DELETAR LIVRO (corresponde a DeletarLivroAsync)
+    // 👉 DELETAR LIVRO
     public async Task<bool> Deletar(Guid id)
     {
-        var response = await _http.DeleteAsync($"api/livros/{id}");
+        var response = await _http.DeleteAsync($"api/v1/livros/{id}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Erro ao deletar livro: {response.StatusCode} - {error}");
+        }
+
         return response.IsSuccessStatusCode;
     }
 }
