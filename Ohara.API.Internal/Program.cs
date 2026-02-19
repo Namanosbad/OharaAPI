@@ -1,5 +1,6 @@
 using Ohara.API.Internal.Extensions;
 using Ohara.API.Ioc;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddSwaggerGen(c =>
     {
         Url = "http://localhost:7143"
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 });
 builder.Services.AddServices(builder.Configuration);
 
