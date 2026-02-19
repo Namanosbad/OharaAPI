@@ -29,21 +29,23 @@ namespace Ohara.API.Application.Services
             if (string.IsNullOrWhiteSpace(adicionarLivroRequest.NomeAutor))
                 throw new ArgumentException("Nome do autor é obrigatório.");
 
-            // 2. Regra de negócio: livro duplicado
-            var livroExistente = await _livroRepo.FindAsync(l =>
-                l.Titulo == adicionarLivroRequest.Titulo &&
-                l.Autor.Nome == adicionarLivroRequest.NomeAutor);
-
-            if (livroExistente.Any())
-                throw new BusinessException("Já existe um livro com esse título para esse autor.");
-
-            // 3. Busca autor
+            // 1. Busca autor
             var autores = await _autorRepo.FindAsync(a => a.Nome == adicionarLivroRequest.NomeAutor);
             var autor = autores.FirstOrDefault();
 
-            // 4. Regra de negócio: criar autor se não existir
-            if (autor == null)
+            // 2. Se autor existir, valida duplicidade
+            if (autor != null)
             {
+                var livrosExistentes = await _livroRepo.FindAsync(l =>
+                    l.Titulo == adicionarLivroRequest.Titulo &&
+                    l.AutorId == autor.Id);
+
+                if (livrosExistentes.Any())
+                    throw new BusinessException("Já existe um livro com esse título para esse autor.");
+            }
+            else
+            {
+                // 3. Cria autor se não existir
                 autor = new Autor
                 {
                     Id = Guid.NewGuid(),
@@ -53,14 +55,15 @@ namespace Ohara.API.Application.Services
                 await _autorRepo.AddAsync(autor);
             }
 
-            // 5. Mapeia request → entidade
+            // 4. Cria livro
             var livro = _mapper.Map<Livro>(adicionarLivroRequest);
             livro.AutorId = autor.Id;
 
-            // 6. Salva
             var livroSalvo = await _livroRepo.AddAsync(livro);
+
             return _mapper.Map<LivroResponse>(livroSalvo);
         }
+
         public async Task<LivroResponse> AtualizarLivroAsync(Guid id, LivroRequest atualizarLivroRequest)
         {
             var livroExistente = await _livroRepo.GetByIdAsync(id);

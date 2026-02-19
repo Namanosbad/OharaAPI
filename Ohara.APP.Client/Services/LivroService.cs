@@ -34,7 +34,7 @@ public class LivroService
     public async Task<List<LivroResponse>> BuscarPorTitulo(string titulo)
     {
         return await _http.GetFromJsonAsync<List<LivroResponse>>(
-            $"api/v1/livros/titulo/{titulo}"
+            $"api/v1/livros/titulo?titulo={Uri.EscapeDataString(titulo)}"
         ) ?? new();
     }
 
@@ -42,14 +42,14 @@ public class LivroService
     public async Task<List<LivroResponse>> BuscarPorGenero(EGenero genero)
     {
         return await _http.GetFromJsonAsync<List<LivroResponse>>(
-            $"api/v1/livros/genero/{(int)genero}"
+            $"api/v1/livros/genero?genero={(int)genero}"
         ) ?? new();
     }
 
     // 👉 ADICIONAR LIVRO
     public async Task<LivroResponse?> Adicionar(LivroRequest request)
     {
-        var response = await _http.PostAsJsonAsync("api/v1/livros", request);
+        var response = await _http.PostAsJsonAsync("api/v1/livros/cadastrar", request);
 
         if (!response.IsSuccessStatusCode)
         {
