@@ -57,10 +57,13 @@ namespace Ohara.API.Database.Repositories
         public async Task<T> DeleteAsync(Guid id)
         {
             var entity = await _DbSet.FindAsync(id);
-            if (entity is null)
 
-                _DbSet.Remove(entity);
+            if (entity is null)
+                return null;
+
+            _DbSet.Remove(entity);
             await _oharaDbContext.SaveChangesAsync();
+
             return entity;
         }
     }
