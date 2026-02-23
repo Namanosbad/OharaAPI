@@ -9,17 +9,19 @@ namespace Ohara.API.Application.Services
 {
     public class AutorService : IAutorService
     {
+        private readonly IAutorRepository _repository;
         private readonly IRepository<Autor> _repo;
         private readonly IMapper _mapper;
-        public AutorService(IRepository<Autor> repository, IMapper mapper)
+        public AutorService(IAutorRepository autorRepository,IRepository<Autor> repository, IMapper mapper)
         {
             _repo = repository;
             _mapper = mapper;
+            _repository = autorRepository;
         }
 
         public async Task<IEnumerable<AutorResponse>> ListarAsync()
         {
-            var autores = await _repo.GetAllAsync();
+            var autores = await _repository.ListarAsync();
             return _mapper.Map<IEnumerable<AutorResponse>>(autores);
         }
 
