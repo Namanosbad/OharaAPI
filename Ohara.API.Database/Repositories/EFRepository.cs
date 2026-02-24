@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Ohara.API.Domain.Entities;
 using Ohara.API.Domain.Interfaces;
 using System.Linq.Expressions;
 
@@ -66,5 +67,6 @@ namespace Ohara.API.Database.Repositories
 
             return entity;
         }
+
     }
 }

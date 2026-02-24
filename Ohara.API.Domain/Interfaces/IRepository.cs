@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Ohara.API.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Ohara.API.Domain.Interfaces
 {

@@ -11,12 +11,14 @@ namespace Ohara.API.Application.Services
     {
         private readonly IAutorRepository _repository;
         private readonly IRepository<Autor> _repo;
+        private readonly IRepository<Livro> _livroRepo;
         private readonly IMapper _mapper;
-        public AutorService(IAutorRepository autorRepository,IRepository<Autor> repository, IMapper mapper)
+        public AutorService(IAutorRepository autorRepository,IRepository<Autor> repository, IRepository<Livro> livroRepo, IMapper mapper)
         {
             _repo = repository;
             _mapper = mapper;
             _repository = autorRepository;
+            _livroRepo = livroRepo;
         }
 
         public async Task<IEnumerable<AutorResponse>> ListarAsync()
@@ -36,6 +38,19 @@ namespace Ohara.API.Application.Services
             var autor = await _repo.GetByIdAsync(autorId);
             if (autor == null) throw new BusinessException("nenhum autor encontrado");
             return _mapper.Map<AutorResponse>(autor);
+        }
+
+        public async Task DeletarSemLivrosAsync(Guid autorId)
+        {
+            var autor = await _repository.ObterComLivrosPorIdAsync(autorId);
+
+            if (autor is null)
+                throw new KeyNotFoundException("Autor não encontrado.");
+
+            if (autor.Livros.Any())
+                throw new BusinessException("Não é possível deletar autor que possui livro(s) vinculado(s).");
+
+            await _repo.DeleteAsync(autorId);
         }
     }
 }
