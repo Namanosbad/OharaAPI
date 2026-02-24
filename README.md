@@ -37,21 +37,15 @@
 
 ### Cadastro de livro
 
-![Cadastro de livro](docs/images/livros-cadastro.png)
-
-> Substitua por um print real em `docs/images/livros-cadastro.png`.
+![Cadastro de livro](https://github.com/user-attachments/assets/4b0809e8-4c69-4ab8-be3a-3851d084e746)
 
 ### Lista de autores
 
-![Lista de autores](docs/images/autores-lista.png)
-
-> Substitua por um print real em `docs/images/autores-lista.png`.
+![Lista de autores](https://github.com/user-attachments/assets/fec4a2e3-3983-4e87-b709-e519ad712dbe)
 
 ### Swagger / documentação da API
 
-![Swagger da API](docs/images/swagger.png)
-
-> Substitua por um print real em `docs/images/swagger.png`.
+![Swagger da API](https://github.com/user-attachments/assets/1d5de4b6-739b-4aad-ac35-3901cffc50c8)
 
 ---
 
