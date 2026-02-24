@@ -81,5 +81,22 @@ namespace Ohara.API.Internal.Controllers
 
             return Ok(autorLivro);
         }
+        /// <summary>
+        /// Deleta um autor que não possua livros vinculados.
+        /// </summary>
+        /// <param name="id">Identificador único (GUID) do autor.</param>
+        /// <returns>Sem conteúdo.</returns>
+        /// <response code="204">Autor removido com sucesso.</response>
+        /// <response code="400">Autor possui livro(s) vinculado(s).</response>
+        /// <response code="404">Autor não encontrado.</response>
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Deletar([FromRoute] Guid id)
+        {
+            await _autorService.DeletarSemLivrosAsync(id);
+            return NoContent();
+        }
     }
 }

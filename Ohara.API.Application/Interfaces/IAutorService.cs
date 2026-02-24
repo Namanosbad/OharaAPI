@@ -7,5 +7,6 @@ namespace Ohara.API.Application.Interfaces
         Task<IEnumerable<AutorResponse>> ListarAsync();
         Task<List<AutorResponse>> AutorAsync(string nome);
         Task<AutorResponse> LivroPorAutorAsync(Guid autorId);
+        Task DeletarSemLivrosAsync(Guid autorId);
     }
 }

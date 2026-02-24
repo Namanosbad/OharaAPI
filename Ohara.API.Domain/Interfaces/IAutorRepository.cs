@@ -6,6 +6,7 @@ namespace Ohara.API.Domain.Interfaces
     public interface IAutorRepository
     {
         Task<Autor> LivroPorAutorAsync(Guid autorId);
-        Task<IEnumerable<Autor>> ListarAsync(); 
+        Task<IEnumerable<Autor>> ListarAsync();
+        Task<Autor> ObterComLivrosPorIdAsync(Guid autorId);
     }
 }

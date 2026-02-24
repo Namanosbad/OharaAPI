@@ -26,5 +26,11 @@ namespace Ohara.API.Database.Repositories
               .Include(a => a.Livros)
                 .ToListAsync();
         }
+        public async Task<Autor> ObterComLivrosPorIdAsync(Guid autorId)
+        {
+            return await _dbContext.Autor
+                .Include(a => a.Livros)
+                .FirstOrDefaultAsync(a => a.Id == autorId);
+        }
     }
 }
