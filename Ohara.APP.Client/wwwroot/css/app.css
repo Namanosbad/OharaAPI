@@ -1213,7 +1213,7 @@ body {
 .livro-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 40px;
     margin-top: 8px;
     font-size: 0.95rem;
 }
@@ -1243,4 +1243,45 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 8px 20px;
     margin-top: 10px;
+}
+}
+
+.livro-subtitulo {
+    margin-top: -8px;
+    margin-bottom: 14px;
+    font-family: 'Special Elite', cursive;
+    opacity: 0.85;
+}
+
+.livro-highlight {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0 16px;
+}
+
+.livro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid rgba(42, 27, 18, 0.45);
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+
+.livro-badge-disponivel {
+    background: rgba(78, 124, 91, 0.2);
+    border-color: rgba(78, 124, 91, 0.55);
+}
+
+.livro-badge-indisponivel {
+    background: rgba(160, 91, 60, 0.2);
+    border-color: rgba(160, 91, 60, 0.55);
+}
+
+.livro-descricao {
+    margin-top: 6px;
+    line-height: 1.6;
 }
