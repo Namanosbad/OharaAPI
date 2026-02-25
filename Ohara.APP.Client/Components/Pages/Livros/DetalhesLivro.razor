@@ -16,20 +16,28 @@
     {
         <div class="autor-detalhe livro-detalhe">
             <h2 class="page-title">@livro.Titulo</h2>
+            <p class="livro-subtitulo">@ObterNomeAutor() · @livro.Genero</p>
+
+            <div class="livro-highlight">
+                <span class="livro-badge">📅 @livro.DataPublicacao.ToString("dd/MM/yyyy")</span>
+                <span class="livro-badge">🌐 @ObterIdioma()</span>
+                <span class="livro-badge @(livro.Disponivel ? "livro-badge-disponivel" : "livro-badge-indisponivel")">
+                    📦 @(livro.Disponivel ? "Disponível" : "Indisponível")
+                </span>
+            </div>
 
             <div class="livro-grid-info">
-                <p><strong>ID:</strong> @livro.Id</p>
-                <p><strong>Autor:</strong> @(!string.IsNullOrWhiteSpace(livro.NomeAutor) ? livro.NomeAutor : "Não informado")</p>
+                <p><strong>Autor:</strong> @ObterNomeAutor()</p>
                 <p><strong>Gênero:</strong> @livro.Genero</p>
-                <p><strong>Assunto:</strong> @(string.IsNullOrWhiteSpace(livro.Assunto) ? "Não informado" : livro.Assunto)</p>
-                <p><strong>Idioma:</strong> @(string.IsNullOrWhiteSpace(livro.Idioma) ? "Não informado" : livro.Idioma)</p>
-                <p><strong>ISBN:</strong> @(string.IsNullOrWhiteSpace(livro.ISBN) ? "Não informado" : livro.ISBN)</p>
+                <p><strong>Assunto:</strong> @ObterAssunto()</p>
+                <p><strong>Idioma:</strong> @ObterIdioma()</p>
+                <p><strong>ISBN:</strong> @ObterIsbn()</p>
                 <p><strong>Data de publicação:</strong> @livro.DataPublicacao.ToString("dd/MM/yyyy")</p>
                 <p><strong>Disponibilidade:</strong> @(livro.Disponivel ? "Disponível" : "Indisponível")</p>
             </div>
 
             <h3>Descrição</h3>
-            <p>@(string.IsNullOrWhiteSpace(livro.Descricao) ? "Sem descrição registrada." : livro.Descricao)</p>
+            <p class="livro-descricao">@ObterDescricao()</p>
         </div>
     }
 
@@ -53,6 +61,10 @@
             carregando = false;
         }
     }
-
+    private string ObterNomeAutor() => !string.IsNullOrWhiteSpace(livro?.NomeAutor) ? livro.NomeAutor! : "Autor não informado";
+    private string ObterIdioma() => !string.IsNullOrWhiteSpace(livro?.Idioma) ? livro.Idioma! : "Idioma não informado";
+    private string ObterAssunto() => !string.IsNullOrWhiteSpace(livro?.Assunto) ? livro.Assunto! : "Não informado";
+    private string ObterIsbn() => !string.IsNullOrWhiteSpace(livro?.ISBN) ? livro.ISBN! : "Não informado";
+    private string ObterDescricao() => !string.IsNullOrWhiteSpace(livro?.Descricao) ? livro.Descricao! : "Sem descrição registrada.";
     private void Voltar() => Nav.NavigateTo("/livros");
 }

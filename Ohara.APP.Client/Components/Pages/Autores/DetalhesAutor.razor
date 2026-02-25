@@ -16,8 +16,9 @@
             <div class="autor-card">
                 <div class="autor-inicial">@ObterInicial(autor.Nome)</div>
                 <div>
-                    <p><strong>ID:</strong> @autor.Id</p>
-                    <p><strong>Livros no acervo:</strong> @autor.Livros?.Count</p>
+                    <p><strong>Livros no acervo:</strong> @TotalLivros</p>
+                    <p><strong>Disponíveis:</strong> @LivrosDisponiveis</p>
+                    <p><strong>Gêneros no acervo:</strong> @GenerosNoAcervo</p>
                 </div>
             </div>
 
@@ -39,7 +40,8 @@
                             </div>
 
                             <div class="livro-meta">
-                                <span>📅 @livro.DataPublicacao:dd/MM/yyyy</span>
+                                <span>📅 @livro.DataPublicacao.ToString("dd/MM/yyyy")</span>
+                                <span>🌐 Idioma: @livro.Idioma</span>
                                 <span>📦 @(livro.Disponivel ? "Disponível" : "Indisponível")</span>
                             </div>
 
@@ -60,6 +62,10 @@
     [Parameter] public Guid Id { get; set; }
 
     private AutorResponse? autor;
+
+    private int TotalLivros => autor?.Livros?.Count ?? 0;
+    private int LivrosDisponiveis => autor?.Livros?.Count(l => l.Disponivel) ?? 0;
+    private int GenerosNoAcervo => autor?.Livros?.Select(l => l.Genero).Distinct().Count() ?? 0;
 
     protected override async Task OnInitializedAsync()
     {
