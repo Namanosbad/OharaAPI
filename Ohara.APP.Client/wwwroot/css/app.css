@@ -54,7 +54,7 @@ html, body {
    CONTAINER PADRÃO DE PÁGINA (USADO EM TODAS)
    ====================================================== */
 .adventure-container {
-    min-height: 100%;
+    min-height: auto !important;
     width: 100%;
     background: var(--map-bg) url('../images/mapa-fundo.png') no-repeat center center;
     background-size: cover;
@@ -446,15 +446,18 @@ html, body {
 
 .app-layout {
     width: 100%;
-    min-height: 100vh;
-    background: transparent; /* IMPORTANTE */
+    background: transparent;
+    min-height: auto !important;
+    height: auto !important;
+    /* IMPORTANTE */
 }
 
 .ohara-main {
     width: 100%;
-    min-height: 100vh;
     background: transparent; /* NÃO pode cobrir o mapa */
     display: block;
+    min-height: auto !important;
+    height: auto !important;
 }
 
 /* Garante que nada por cima apague o mapa */
@@ -1183,4 +1186,61 @@ body {
         transform: translateY(0);
         opacity: 1;
     }
+}
+/* ====== DETALHE DE LIVROS NO DETALHE DO AUTOR ====== */
+.livro-item {
+    padding: 14px 10px;
+    border-bottom: 1px dashed rgba(42, 27, 18, 0.4);
+}
+
+.livro-item-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.livro-titulo {
+    font-size: 1.1rem;
+}
+
+.livro-genero {
+    font-family: 'Special Elite', cursive;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.livro-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 8px;
+    font-size: 0.95rem;
+}
+
+.btn-livro-detalhe {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 6px 12px;
+    font-family: 'IM Fell English SC', serif;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+    .btn-livro-detalhe:hover {
+        background: rgba(255, 255, 255, 0.45);
+    }
+
+/* ====== PÁGINA DE DETALHE DO LIVRO ====== */
+.livro-detalhe {
+    max-width: 900px;
+}
+
+.livro-grid-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 8px 20px;
+    margin-top: 10px;
 }

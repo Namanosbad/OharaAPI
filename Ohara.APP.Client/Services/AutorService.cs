@@ -19,7 +19,6 @@ public class AutorService
         ) ?? new();
     }
 
-    // 🔥 MÉTODO CORRETO (é aqui que estava o 404)
     public async Task<AutorResponse?> ObterPorId(Guid id)
     {
         return await _http.GetFromJsonAsync<AutorResponse>(
