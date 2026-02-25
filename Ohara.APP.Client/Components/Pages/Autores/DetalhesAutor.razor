@@ -14,8 +14,11 @@
             <h2 class="page-title">Dossiê de @autor.Nome</h2>
 
             <div class="autor-card">
-                <div class="autor-inicial">@autor.Nome.Substring(0, 1)</div>
-                <p><strong>ID:</strong> @autor.Id</p>
+                <div class="autor-inicial">@ObterInicial(autor.Nome)</div>
+                <div>
+                    <p><strong>ID:</strong> @autor.Id</p>
+                    <p><strong>Livros no acervo:</strong> @autor.Livros?.Count</p>
+                </div>
             </div>
 
             <h3>Livros Registrados</h3>
@@ -29,7 +32,19 @@
                 <ul class="lista-livros">
                     @foreach (var livro in autor.Livros)
                     {
-                        <li>@livro.Titulo</li>
+                        <li class="livro-item">
+                            <div class="livro-item-topo">
+                                <strong class="livro-titulo">@livro.Titulo</strong>
+                                <span class="livro-genero">@livro.Genero</span>
+                            </div>
+
+                            <div class="livro-meta">
+                                <span>📅 @livro.DataPublicacao:dd/MM/yyyy</span>
+                                <span>📦 @(livro.Disponivel ? "Disponível" : "Indisponível")</span>
+                            </div>
+
+                            <a class="btn-livro-detalhe" href="@($"/livros/{livro.Id}")">Ver detalhes do livro</a>
+                        </li>
                     }
                 </ul>
             }
@@ -52,4 +67,6 @@
     }
 
     private void Voltar() => Nav.NavigateTo("/autores");
+    private static string ObterInicial(string? nome) =>
+    string.IsNullOrWhiteSpace(nome) ? "?" : nome.Substring(0, 1).ToUpperInvariant();
 }

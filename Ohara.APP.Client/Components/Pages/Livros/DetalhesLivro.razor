@@ -1,0 +1,58 @@
+﻿@page "/livros/{Id:guid}"
+@using Ohara.API.Shared.Responses
+@inject LivroService LivroService
+@inject NavigationManager Nav
+
+<div class="adventure-container">
+    @if (carregando)
+    {
+        <div class="loading-msg">Localizando tomo nos registros de Ohara...</div>
+    }
+    else if (livro == null)
+    {
+        <div class="error-msg">⚠️ Livro não encontrado.</div>
+    }
+    else
+    {
+        <div class="autor-detalhe livro-detalhe">
+            <h2 class="page-title">@livro.Titulo</h2>
+
+            <div class="livro-grid-info">
+                <p><strong>ID:</strong> @livro.Id</p>
+                <p><strong>Autor:</strong> @(!string.IsNullOrWhiteSpace(livro.NomeAutor) ? livro.NomeAutor : "Não informado")</p>
+                <p><strong>Gênero:</strong> @livro.Genero</p>
+                <p><strong>Assunto:</strong> @(string.IsNullOrWhiteSpace(livro.Assunto) ? "Não informado" : livro.Assunto)</p>
+                <p><strong>Idioma:</strong> @(string.IsNullOrWhiteSpace(livro.Idioma) ? "Não informado" : livro.Idioma)</p>
+                <p><strong>ISBN:</strong> @(string.IsNullOrWhiteSpace(livro.ISBN) ? "Não informado" : livro.ISBN)</p>
+                <p><strong>Data de publicação:</strong> @livro.DataPublicacao.ToString("dd/MM/yyyy")</p>
+                <p><strong>Disponibilidade:</strong> @(livro.Disponivel ? "Disponível" : "Indisponível")</p>
+            </div>
+
+            <h3>Descrição</h3>
+            <p>@(string.IsNullOrWhiteSpace(livro.Descricao) ? "Sem descrição registrada." : livro.Descricao)</p>
+        </div>
+    }
+
+    <button class="back-scroll" @onclick="Voltar">← Voltar aos Livros</button>
+</div>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+
+    private LivroResponse? livro;
+    private bool carregando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            livro = await LivroService.ObterPorId(Id);
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    private void Voltar() => Nav.NavigateTo("/livros");
+}

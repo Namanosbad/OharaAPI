@@ -29,7 +29,7 @@
         <div class="wanted-grid">
             @foreach (var livro in LivrosFiltrados)
             {
-                <div class="wanted-card">
+                <div class="wanted-card"" @onclick ="() => AbrirDetalhesLivro(livro.Id)">
                     <div class="thumbtack tack-left"></div>
                     <div class="thumbtack tack-right"></div>
 
@@ -47,10 +47,10 @@
                         </div>
 
                         <div class="actions">
-                            <button class="btn-action btn-edit" @onclick="() => EditarLivro(livro.Id)">
+                            <button class="btn-action btn-edit" @onclick="() => EditarLivro(livro.Id)" @onclick:stopPropagation="true">
                                 ⚓ Editar
                             </button>
-                            <button class="btn-action btn-delete" @onclick="() => ExcluirLivro(livro.Id)">
+                            <button class="btn-action btn-delete" @onclick="() => ExcluirLivro(livro.Id)" @onclick:stopPropagation="true">
                                 ✖ Queimar
                             </button>
                         </div>
@@ -92,6 +92,7 @@
     }
 
     private void CadastrarLivro() => Navigation.NavigateTo("/livros/novo");
+    private void AbrirDetalhesLivro(Guid id) => Navigation.NavigateTo($"/livros/{id}");
     private void EditarLivro(Guid id) => Navigation.NavigateTo($"/livros/editar/{id}");
 
     private async Task ExcluirLivro(Guid id)
