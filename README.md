@@ -16,9 +16,11 @@
 
 ## ✨ Visão Geral
 
-> A **OharaAPI** é baseada em um sistema de biblioteca real que criei para um escritório com cerca de 30 advogados. Mas calma: este repositório é uma versão simplificada do software original. Algumas funções e regras específicas foram retiradas, já que aqui não eram necessárias, então o que você encontra é um exemplo funcional, seguro e fácil de explorar.
+> A **OharaAPI** é uma adaptação de um sistema real que desenvolvi para um escritório com cerca de 30 advogados. O projeto original era voltado para a gestão interna de documentos e fluxos específicos do escritório.
 
-> Este projeto nasceu de uma necessidade prática: construir uma API sólida, capaz de crescer com a empresa, suportar novas regras de negócio e manter a qualidade do código ao longo do tempo. A solução foi estruturada com *Clean Architecture* e *Domain-Driven Design (DDD)* para garantir que o domínio seja o centro do sistema, mantendo a aplicação preparada para mudanças futuras.
+> Para este repositório, adaptei a estrutura e a arquitetura do sistema para um novo contexto: uma biblioteca fictícia inspirada no universo de One Piece.
+
+> Algumas regras de negócio e funcionalidades específicas do projeto original foram removidas, pois não faziam sentido nesse novo cenário. O objetivo aqui é apresentar uma versão simplificada, funcional e segura, que demonstre a base arquitetural e as boas práticas utilizadas no sistema real, mas em um contexto mais leve e fácil de explorar.
 
 > O nome e todo o design são referências claras a One Piece, um anime que é parte importante da minha vida. Ohara é o nome da ilha que abrigava a maior biblioteca do mundo, famosa por seus estudiosos e pelo conhecimento que preservava, até ser destruída pelo próprio Governo, por medo do que esse conhecimento poderia revelar ao mundo. A ideia deste projeto é te fazer alocar e organizar cada parte importante do conhecimento, conhecer cada autor e explorar cada obra que ele escreveu, trazendo um pouco do espírito de descoberta e aprendizado da própria ilha de Ohara, para que o conhecimento nunca morra.
 
@@ -28,20 +30,29 @@
 
 ### Tela inicial / Home
 
-![Home do projeto](https://github.com/user-attachments/assets/15b01934-b287-455e-9927-c68c68dd6ac2)
+![OharaAPI](https://github.com/user-attachments/assets/15b01934-b287-455e-9927-c68c68dd6ac2)
 
 ### Lista de livros
 
 ![Lista de livros](https://github.com/user-attachments/assets/9df56787-e82b-4978-8cf3-a834a4b49274)
 
+### Detalhes do livro
+![Detalhes do livros](https://github.com/user-attachments/assets/f16e1beb-8eb7-4c85-adb6-e675b599e4fe)
 
 ### Cadastro de livro
 
 ![Cadastro de livro](https://github.com/user-attachments/assets/4b0809e8-4c69-4ab8-be3a-3851d084e746)
 
+### Editar livro
+
+![Editar livro](https://github.com/user-attachments/assets/a99a4398-da85-41a7-a90e-af994c7cc022)
+
 ### Lista de autores
 
 ![Lista de autores](https://github.com/user-attachments/assets/fec4a2e3-3983-4e87-b709-e519ad712dbe)
+
+### Detalhes do autor
+![Detalhes do livros](https://github.com/user-attachments/assets/5940be67-fe0d-4117-9fbf-5edd09e805f3)
 
 ### Swagger / documentação da API
 
