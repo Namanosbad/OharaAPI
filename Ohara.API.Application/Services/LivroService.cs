@@ -13,11 +13,18 @@ namespace Ohara.API.Application.Services
     {
         private readonly IRepository<Livro> _livroRepo;
         private readonly IRepository<Autor> _autorRepo;
+        private readonly ILivroRepository _livroConsultaRepo;
         private readonly IMapper _mapper;
-        public LivroService(IRepository<Livro> livroRepository, IRepository<Autor> autorRepository, IMapper mapper)
+
+        public LivroService(
+            IRepository<Livro> livroRepository,
+            IRepository<Autor> autorRepository,
+            ILivroRepository livroConsultaRepo,
+            IMapper mapper)
         {
             _livroRepo = livroRepository;
             _autorRepo = autorRepository;
+            _livroConsultaRepo = livroConsultaRepo;
             _mapper = mapper;
         }
 
@@ -29,11 +36,9 @@ namespace Ohara.API.Application.Services
             if (string.IsNullOrWhiteSpace(adicionarLivroRequest.NomeAutor))
                 throw new ArgumentException("Nome do autor é obrigatório.");
 
-            // 1. Busca autor
             var autores = await _autorRepo.FindAsync(a => a.Nome == adicionarLivroRequest.NomeAutor);
             var autor = autores.FirstOrDefault();
 
-            // 2. Se autor existir, valida duplicidade
             if (autor != null)
             {
                 var livrosExistentes = await _livroRepo.FindAsync(l =>
@@ -45,7 +50,6 @@ namespace Ohara.API.Application.Services
             }
             else
             {
-                // 3. Cria autor se não existir
                 autor = new Autor
                 {
                     Id = Guid.NewGuid(),
@@ -55,13 +59,14 @@ namespace Ohara.API.Application.Services
                 await _autorRepo.AddAsync(autor);
             }
 
-            // 4. Cria livro
             var livro = _mapper.Map<Livro>(adicionarLivroRequest);
             livro.AutorId = autor.Id;
 
             var livroSalvo = await _livroRepo.AddAsync(livro);
+            var livroResponse = _mapper.Map<LivroResponse>(livroSalvo);
+            livroResponse.NomeAutor = autor.Nome;
 
-            return _mapper.Map<LivroResponse>(livroSalvo);
+            return livroResponse;
         }
 
         public async Task<LivroResponse> AtualizarLivroAsync(Guid id, LivroRequest atualizarLivroRequest)
@@ -72,24 +77,26 @@ namespace Ohara.API.Application.Services
             _mapper.Map(atualizarLivroRequest, livroExistente);
 
             await _livroRepo.UpdateAsync(livroExistente);
-            return _mapper.Map<LivroResponse>(livroExistente);
+
+            var livroComAutor = await _livroConsultaRepo.ObterPorIdComAutorAsync(id);
+            return _mapper.Map<LivroResponse>(livroComAutor ?? livroExistente);
         }
 
         public async Task<LivroResponse> BuscarLivroAsync(Guid id)
         {
-            var livro = await _livroRepo.GetByIdAsync(id);
+            var livro = await _livroConsultaRepo.ObterPorIdComAutorAsync(id);
             return _mapper.Map<LivroResponse>(livro);
         }
 
         public async Task<IEnumerable<LivroResponse>> BuscarPorTituloAsync(string titulo)
         {
-            var livros = await _livroRepo.FindAsync(l => l.Titulo.Contains(titulo));
+            var livros = await _livroConsultaRepo.BuscarPorTituloComAutorAsync(titulo);
             return _mapper.Map<IEnumerable<LivroResponse>>(livros);
         }
 
         public async Task<IEnumerable<LivroResponse>> BuscarTodosLivrosAsync()
         {
-            var livros = await _livroRepo.GetAllAsync();
+            var livros = await _livroConsultaRepo.ObterTodosComAutorAsync();
             return _mapper.Map<IEnumerable<LivroResponse>>(livros);
         }
 
@@ -103,11 +110,8 @@ namespace Ohara.API.Application.Services
 
         public async Task<List<LivroResponse>> LivroPorGeneroAsync(EGenero genero)
         {
-            // Busca no repositório filtrando pelo valor do Enum
-            var livros = await _livroRepo.FindAsync(l => l.Genero == genero);
-
-            // Converte para a lista de Responses usando o AutoMapper
-            return _mapper.Map<List<LivroResponse>>(livros.ToList());
+            var livros = await _livroConsultaRepo.BuscarPorGeneroComAutorAsync(genero);
+            return _mapper.Map<List<LivroResponse>>(livros);
         }
     }
 }
