@@ -52,7 +52,7 @@
 ![Lista de autores](https://github.com/user-attachments/assets/fec4a2e3-3983-4e87-b709-e519ad712dbe)
 
 ### Detalhes do autor
-![Detalhes do livros](https://github.com/user-attachments/assets/5940be67-fe0d-4117-9fbf-5edd09e805f3)
+![Detalhes do livros](https://github.com/user-attachments/assets/fb7fcd3d-bbf1-407f-80e9-2f792378845f)
 
 ### Swagger / documentação da API
 
